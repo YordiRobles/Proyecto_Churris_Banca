@@ -18,14 +18,3 @@ yarn-error.log
 /.idea
 /.vscode
 
-# Archivos caché y compilados
-*.log
-*.lock
-*.pid
-*.seed
-*.suo
-*.swp
-*.tmp
-*.vspscc
-.DS_Store
-Thumbs.db
