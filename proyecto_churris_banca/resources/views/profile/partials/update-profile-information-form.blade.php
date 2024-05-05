@@ -52,6 +52,10 @@
                 @endif
             </div>
 
+            <div>
+                <x-input-label for="name" :value="__('Cambiar foto de perfil')" />
+            </div>
+
             <div class="flex items-center gap-4">
                 <x-primary-button>{{ __('Guardar') }}</x-primary-button>
 
