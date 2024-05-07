@@ -2,3 +2,4 @@
 
 # Para correr servidor:
     php artisan serve
+    prueba2
