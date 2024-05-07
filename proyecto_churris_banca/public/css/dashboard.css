@@ -1,17 +1,25 @@
+.font-title {
+    font-weight: 600; /* Equivalente a font-semibold */
+    font-size: 1.25rem; /* Equivalente a text-xl */
+    color: #050505; /* Equivalente a text-gray-800 */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    line-height: 1.4; /* Equivalente a leading-tight */
+}
+
 .header-container {
     display: flex;
     align-items: center;
 }
 
 .search-container {
+    flex: 1;
     display: flex;
-    align-items: center;
-    margin-left: 30px;
+    justify-content: center;
 }
 
 .search-box {
     position: relative;
-    width: 300px;
+    width: 400px;
 }
 
 .search-input {
