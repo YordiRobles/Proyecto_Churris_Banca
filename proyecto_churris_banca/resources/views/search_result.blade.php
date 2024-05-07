@@ -17,20 +17,20 @@
             </div>
         </div>
     </x-slot>
-    <div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($users as $user)
-                <tr>
-                    <td><a href="{{ route('user.show', $user->name) }}">{{ $user->name }}</a></td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+    <div class="title-container">
+        <h2 class="title-result">Resultados de la busqueda</h2>
     </div>
+
+    <div class="table-container">
+    <table class="user-table">
+        <tbody>
+            @foreach($users as $user)
+            <tr>
+                <td><a href="{{ route('user.show', $user->name) }}">{{ $user->name }}</a></td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
 </x-app-layout>

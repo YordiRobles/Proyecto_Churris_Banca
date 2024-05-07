@@ -45,3 +45,35 @@
 .search-button:focus {
     outline: none; 
 }
+
+.table-container {
+    margin: 0 auto; /* Centra la tabla horizontalmente */
+    width: 30%; /* Ancho de la tabla */
+    padding-top: 3%;
+}
+
+.user-table {
+    border-collapse: collapse; /* Combina los bordes de la tabla en uno solo */
+    width: 100%; /* Ancho completo de la tabla */
+}
+
+.user-table th, .user-table td {
+    border: 1px solid black; /* Agrega bordes a las celdas */
+    padding: 8px; /* Espaciado interno */
+    text-align: center; /* Alineación del texto */
+}
+
+.user-table th {
+    background-color: white; /* Color de fondo para las celdas de encabezado */
+}
+.title-container {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente el contenido del contenedor */
+    padding-top: 2%;
+}
+
+.title-result {
+    font-weight: 600; /* Equivalente a font-semibold */
+    font-size: 30px; /* Ajusta el tamaño del texto según tus necesidades */
+    color: #050505; /* Equivalente a text-gray-800 */
+}
