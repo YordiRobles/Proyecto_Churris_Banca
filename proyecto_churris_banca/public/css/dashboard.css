@@ -1,20 +1,23 @@
 .font-title {
-    font-weight: 600; /* Equivalente a font-semibold */
-    font-size: 1.25rem; /* Equivalente a text-xl */
-    color: #050505; /* Equivalente a text-gray-800 */
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: #050505;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    line-height: 1.4; /* Equivalente a leading-tight */
+    line-height: 1.4;
 }
 
 .header-container {
+    width: 100%;
     display: flex;
     align-items: center;
 }
 
 .search-container {
+    width: 100%;
     flex: 1;
     display: flex;
     justify-content: center;
+    padding-top: 10px;
 }
 
 .search-box {
@@ -47,33 +50,45 @@
 }
 
 .table-container {
-    margin: 0 auto; /* Centra la tabla horizontalmente */
-    width: 30%; /* Ancho de la tabla */
-    padding-top: 3%;
+    margin: 0 auto;
+    width: 30%;
+    padding-top: 2%;
 }
 
 .user-table {
-    border-collapse: collapse; /* Combina los bordes de la tabla en uno solo */
-    width: 100%; /* Ancho completo de la tabla */
+    width: 100%;
+    background-color: white;
 }
 
-.user-table th, .user-table td {
-    border: 1px solid black; /* Agrega bordes a las celdas */
-    padding: 8px; /* Espaciado interno */
-    text-align: center; /* Alineación del texto */
+.user-table td {
+    border: 1px solid black;
+    padding: 8px;
+    font-size: 20px;
+    text-align: center;
 }
 
-.user-table th {
-    background-color: white; /* Color de fondo para las celdas de encabezado */
+.user-table a {
+    color: black;
+    text-decoration: underline;
+    font-weight: bold;
+    transition: color 0.3s ease, font-size 0.3s ease, transform 0.3s ease;
 }
+
+.user-table a:hover {
+    color: #777;
+    font-size: 1.1em;
+    transform: translateY(-2px);
+}
+
+
 .title-container {
     display: flex;
-    justify-content: center; /* Centra horizontalmente el contenido del contenedor */
+    justify-content: center;
     padding-top: 2%;
 }
 
 .title-result {
-    font-weight: 600; /* Equivalente a font-semibold */
-    font-size: 30px; /* Ajusta el tamaño del texto según tus necesidades */
-    color: #050505; /* Equivalente a text-gray-800 */
+    font-weight: 600;
+    font-size: 40px;
+    color: #050505;
 }

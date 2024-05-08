@@ -18,9 +18,8 @@
         </div>
     </x-slot>
     <div class="title-container">
-        <h2 class="title-result">Resultados de la busqueda</h2>
+        <h2 class="title-result">Usuarios encontrados</h2>
     </div>
-
     <div class="table-container">
     <table class="user-table">
         <tbody>
