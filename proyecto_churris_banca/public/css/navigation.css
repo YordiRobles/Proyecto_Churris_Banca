@@ -29,6 +29,7 @@
 
 /* Por defecto, sin subrayado */
 .nav-socialnet {
+    font-size: 0.9rem;
     text-decoration: none;
 }
 

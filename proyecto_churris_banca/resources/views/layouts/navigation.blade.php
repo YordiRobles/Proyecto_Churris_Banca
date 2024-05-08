@@ -14,9 +14,14 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-4 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link class="nav-socialnet" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Red Social') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x- sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link class="nav-socialnet" :href="route('dashboard')" :active="request()->routeIs('')">
+                        {{ __('Red Bancaria') }}
                     </x-nav-link>
                 </div>
             </div>

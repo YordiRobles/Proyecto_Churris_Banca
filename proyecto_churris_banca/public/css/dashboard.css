@@ -1,0 +1,195 @@
+.font-title {
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: #050505;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    line-height: 1.4;
+}
+
+.header-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.search-container {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+}
+
+.search-box {
+    position: relative;
+    width: 400px;
+}
+
+.search-input {
+    width: 100%;
+    height: 40px;
+    padding-right: 50px;
+}
+
+.search-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 100%;
+    background-color: transparent;
+    background-image: url('/img/lupa.jpg'); 
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 20px; 
+    cursor: pointer;
+}
+
+.search-button:focus {
+    outline: none; 
+}
+
+.table-container {
+    margin: 0 auto;
+    width: 30%;
+    padding-top: 2%;
+}
+
+.user-table {
+    width: 100%;
+    background-color: white;
+}
+
+.user-table td {
+    border: 1px solid black;
+    padding: 8px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.user-table a {
+    color: black;
+    text-decoration: underline;
+    font-weight: bold;
+    transition: color 0.3s ease, font-size 0.3s ease, transform 0.3s ease;
+}
+
+.user-table a:hover {
+    color: #777;
+    font-size: 1.1em;
+    transform: translateY(-2px);
+}
+
+
+.title-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 2%;
+}
+
+.title-result {
+    font-weight: 600;
+    font-size: 40px;
+    color: #050505;
+}
+
+/* Estilos para el formulario de publicación */
+.post-form {
+    display: flex;
+    flex-direction: column; /* Apila los elementos verticalmente */
+}
+
+.post-inputs {
+    margin-bottom: 10px; /* Espacio entre el área de texto y el botón */
+}
+
+.post-textarea {
+    width: 100%;
+    height: 100px;
+    resize: none;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.post-image-input {
+    margin-bottom: 10px;
+}
+
+.post-button {
+    padding: 8px 16px;
+    background-color: #DD4242;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.post-button-container {
+    margin-left: auto; /* Coloca el botón al final del contenedor */
+}
+
+.divisor-line {
+    margin-top: 20px; /* Agrega espacio encima de la línea divisora */
+    margin-bottom: 40px; /* Agrega espacio debajo de la línea divisora */
+    border: none; /* Asegúrate de que no haya ningún borde en la línea divisora */
+    border-top: 1px solid #ccc; /* Añade un borde superior */
+}
+
+/* Estilos para el área de las publicaciones */
+.post {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.post-header img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.post-info h3 {
+    margin: 0;
+}
+
+.post-info p {
+    margin: 0;
+    color: #888;
+}
+
+.post-content img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+/* Estilos para los botones de Me gusta y No me gusta */
+.like-button,
+.dislike-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.like-button:hover,
+.dislike-button:hover {
+    color: #1DA1F2; /* Cambiar color al pasar el ratón */
+}
+
+.like-count,
+.dislike-count {
+    margin-right: 5px;
+    color: #888;
+}
