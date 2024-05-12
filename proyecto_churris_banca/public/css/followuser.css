@@ -1,0 +1,8 @@
+#followButton {
+    background-color: red; /* Color por defecto para seguir */
+    color: white;
+}
+
+#followButton.unfollow {
+    background-color: #4CAF50; /* Color cuando se deja de seguir */
+}
