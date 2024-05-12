@@ -19,9 +19,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-/*
-EL middleware realiza la verificación de autentificación para ingresar a dashboard
-*/
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
