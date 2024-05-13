@@ -55,6 +55,12 @@
             <div>
                 <x-input-label for="name" :value="__('Cambiar foto de perfil')" />
             </div>
+            <!-- imagen -->
+            <div class="form-group">
+                <input type="file" name="file_user" id="addImage" accept="image/*">
+                <br/>
+            </div>
+               <!-- <script src= "{{ asset('/js/controlImage.js ') }}" defer></script>-->
 
             <div class="flex items-center gap-4">
                 <x-primary-button>{{ __('Guardar') }}</x-primary-button>
