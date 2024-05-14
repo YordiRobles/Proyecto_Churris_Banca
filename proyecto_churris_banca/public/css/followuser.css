@@ -1,8 +1,132 @@
-#followButton {
-    background-color: red; /* Color por defecto para seguir */
-    color: white;
+.font-title {
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: #050505;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    line-height: 1.4;
 }
 
-#followButton.unfollow {
-    background-color: #4CAF50; /* Color cuando se deja de seguir */
+.header-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
 }
+
+.search-container {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+}
+
+.search-box {
+    position: relative;
+    width: 400px;
+}
+
+.search-input {
+    width: 100%;
+    height: 40px;
+    padding-right: 50px;
+}
+
+.search-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 100%;
+    background-color: transparent;
+    background-image: url('/img/lupa.jpg'); 
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 20px; 
+    cursor: pointer;
+}
+
+.search-button:focus {
+    outline: none; 
+}
+
+.buttonfollow {
+    background-color: #0095ff;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    box-shadow: rgba(255, 255, 255, .4) 0 1px 0 0 inset;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.15385;
+    margin: 0;
+    outline: none;
+    padding: 8px .8em;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    white-space: nowrap;
+  }
+  
+  .buttonfollow:hover,
+  .buttonfollow:focus {
+    background-color: #07c;
+  }
+  
+  .buttonfollow:focus {
+    box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+  }
+  
+  .buttonunfollow:active {
+    background-color: #0064bd;
+    box-shadow: none;
+  }
+
+
+  .buttonunfollow {
+    background-color: #ff0000;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    box-shadow: rgba(255, 255, 255, .4) 0 1px 0 0 inset;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.15385;
+    margin: 0;
+    outline: none;
+    padding: 8px .8em;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    white-space: nowrap;
+  }
+  
+  .buttonunfollow:hover,
+  .buttonunfollow:focus {
+    background-color: rgb(204, 0, 0);
+  }
+  
+  .buttonunfollow:focus {
+    box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+  }
+  
+  .buttonunfollow:active {
+    background-color: #bd0000;
+    box-shadow: none;
+  }

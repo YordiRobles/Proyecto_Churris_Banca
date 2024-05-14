@@ -89,6 +89,13 @@ class UserController extends Controller
                         return Redirect::route('dashboard');
                     }
                 }
+            } else {
+                // En caso de que se consiga seguir una oersona dos veces, se atrapa el error.
+                if ($userToFollow && $userToFollow->id !== $currentUser->id) {
+                    return view('show_user', ['name' => $userToFollow->name, 'email' => $userToFollow->email]);
+                } else {
+                    return Redirect::route('dashboard');
+                }
             }
 
         // Si se deja de seguir a un usuario
