@@ -10,17 +10,27 @@
     @if (isset($name))
         <h1>User Name: {{ $name }}</h1>
     @endif
+    <p>asdasdasd </p>
 
     @if (isset($email))
         <p>Email: {{ $email }}</p>
     @endif
 
-    <form action="{{ route('user.follow', ['name' => $name]) }}" method="POST">
-        @csrf
-        <input type="hidden" name="action" id="followAction" value="follow">
-        <button type="button" id="followButton">Empezar a seguir</button>
+    <form id="followForm" action="{{ route('user.follow', ['name' => $name]) }}" method="POST">
+    @csrf
+        <div class="follow-buttons">
+            <button type="submit" name="follow" value="1" id="followButton">
+            <span class="button__text">Seguir usuario</span>
+            </button>
+            <button type="submit" name="unfollow" value="2" id="unfollowButton">
+            <span class="button__text">Dejar de seguir usuario</span>
+            </button>
+        </div>
     </form>
+
     <script src="{{ asset('/js/followbutton.js') }}" defer></script>
+
+
 
 </body>
 </html>
