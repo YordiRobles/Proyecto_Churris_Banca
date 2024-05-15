@@ -2,7 +2,7 @@
   font-weight: 600;
   font-size: 1.25rem;
   color: #050505;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
   line-height: 1.4;
 }
 
@@ -53,92 +53,126 @@
   display: flex;
   justify-content: center;
   padding-top: 2%;
+  padding-bottom: 2%;
 }
 
-.title-result {
-  font-weight: 600;
+.followform{
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+
+.title-username {
+  font-weight: bold;
   font-size: 40px;
   color: #050505;
 }
 
+.title-email {
+  font-weight: bold;
+  font-size: 30px;
+  color: #050505;
+}
+
 .buttonfollow {
-    background-color: #0095ff;
-    border: 1px solid transparent;
-    border-radius: 3px;
-    box-shadow: rgba(255, 255, 255, .4) 0 1px 0 0 inset;
-    box-sizing: border-box;
-    color: #fff;
-    cursor: pointer;
-    display: inline-block;
-    font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 1.15385;
-    margin: 0;
-    outline: none;
-    padding: 8px .8em;
-    position: relative;
-    text-align: center;
-    text-decoration: none;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    vertical-align: baseline;
-    white-space: nowrap;
-  }
-  
-  .buttonfollow:hover,
-  .buttonfollow:focus {
-    background-color: #07c;
-  }
-  
-  .buttonfollow:focus {
-    box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
-  }
-  
-  .buttonunfollow:active {
-    background-color: #0064bd;
-    box-shadow: none;
-  }
+  background-color: #0095ff;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  box-shadow: rgba(255, 255, 255, .4) 0 1px 0 0 inset;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 1.15385;
+  margin: 0;
+  outline: none;
+  padding: 8px .8em;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+  width: 175px;
+}
 
 
-  .buttonunfollow {
-    background-color: #ff0000;
-    border: 1px solid transparent;
-    border-radius: 3px;
-    box-shadow: rgba(255, 255, 255, .4) 0 1px 0 0 inset;
-    box-sizing: border-box;
-    color: #fff;
-    cursor: pointer;
-    display: inline-block;
-    font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 1.15385;
-    margin: 0;
-    outline: none;
-    padding: 8px .8em;
-    position: relative;
-    text-align: center;
-    text-decoration: none;
+.buttonfollow:hover,
+.buttonfollow:focus {
+  background-color: #07c;
+}
 
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    vertical-align: baseline;
-    white-space: nowrap;
-  }
-  
-  .buttonunfollow:hover,
-  .buttonunfollow:focus {
-    background-color: rgb(204, 0, 0);
-  }
-  
-  .buttonunfollow:focus {
-    box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
-  }
-  
-  .buttonunfollow:active {
-    background-color: #bd0000;
-    box-shadow: none;
-  }
+.buttonfollow:focus {
+  box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+}
+
+.buttonunfollow:active {
+  background-color: #0064bd;
+  box-shadow: none;
+}
+
+
+.buttonunfollow {
+  background-color: #ff0000;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  box-shadow: rgba(255, 255, 255, .4) 0 1px 0 0 inset;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 1.15385;
+  margin: 0;
+  outline: none;
+  padding: 8px .8em;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  width: 175px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.buttonunfollow:hover,
+.buttonunfollow:focus {
+  background-color: rgb(204, 0, 0);
+}
+
+.buttonunfollow:focus {
+  box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+}
+
+.buttonunfollow:active {
+  background-color: #bd0000;
+  box-shadow: none;
+}
+
+.container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 10% auto;
+  max-width: 800px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.follow-buttons {
+  text-align: center;
+}
+
+.follow-buttons button {
+  margin-top: 10px;
+}
