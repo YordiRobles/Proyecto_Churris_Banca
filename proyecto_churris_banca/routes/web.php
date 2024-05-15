@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+# cuando se carga la vista principal, se carga welcome
 Route::get('/', function () {
     return view('welcome');
 });
