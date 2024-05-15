@@ -39,7 +39,7 @@
                     <h1 class="welcome-text">¡Bienvenidos!</h1>
                 </div>
                 <div class="welcome-image">
-                    <img src="/img/WelcomeChurrisBanca.png" alt="Welcome Image">
+                <img src="/img/WelcomeChurrisBanca.jfif" alt="Imagen de Bienvenida a la ChurrisBanca" class="rounded-image">
                 </div>
             </div>
         </div>
