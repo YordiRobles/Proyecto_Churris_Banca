@@ -110,7 +110,6 @@ class UserController extends Controller
                 $existFollow->delete();
             }
             $friendship = $this->checkIfFollow($currentUser->id, $userToFollow->id);
-            \Log::info($friendship);
             // Despliegue información de seguidores TODO: Revisar como pasar la imagen
             if ($userToFollow && $userToFollow->id !== $currentUser->id) {
                 return view('show_user', ['name' => $userToFollow->name,'is_following' =>$friendship]);

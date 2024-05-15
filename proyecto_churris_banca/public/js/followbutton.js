@@ -1,14 +1,12 @@
 $(document).ready(function(){
     console.log(isFollowing);
     if (isFollowing) {
-        $('.buttonfollow').hide(); // Si está siguiendo, ocultar el botón de seguir
+        $('.buttonfollow').hide();
         $('.buttonunfollow').show();
     } else {
-        $('.buttonunfollow').hide(); // Si no está siguiendo, ocultar el botón de dejar de seguir
+        $('.buttonunfollow').hide();
         $('.buttonfollow').show();
     }
-
-    // Lógica para manejar el evento de hacer clic en los botones (usando AJAX, por ejemplo)
 });
 
 
