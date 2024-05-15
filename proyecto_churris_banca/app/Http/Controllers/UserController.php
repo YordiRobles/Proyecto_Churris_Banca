@@ -36,14 +36,14 @@ class UserController extends Controller
         if ($friendship == true && $friendshipInverse == true) {
             // Despliegue información de amigos TODO: Revisar como pasar la imagen
             if ($user && $user->id !== $currentUser->id) {
-                return view('show_user', ['name' => $user->name, 'email' => $user->email]);
+                return view('show_user', ['name' => $user->name, 'email' => $user->email, 'is_following' =>$friendship]);
             } else {
                 return Redirect::route('dashboard');
             }
         } else {
             // Despliegue información de seguidores TODO: Revisar como pasar la imagen
             if ($user && $user->id !== $currentUser->id) {
-                return view('show_user', ['name' => $user->name]);
+                return view('show_user', ['name' => $user->name, 'is_following' =>$friendship]);
             } else {
                 return Redirect::route('dashboard');
             }
@@ -63,6 +63,7 @@ class UserController extends Controller
             $existingFollower = Follower::where('follower_id', $currentUser->id)
                                         ->where('user_id', $userToFollow->id)
                                         ->first();
+
             if (!$existingFollower) {
                 $follower = new Follower();
                 $follower->follower_id = $currentUser->id;
@@ -72,27 +73,28 @@ class UserController extends Controller
                 // Verifica si son amigos
                 $friendship = $this->checkIfFollow($currentUser->id, $userToFollow->id);
                 $friendshipInverse = $this->checkIfFollow($userToFollow->id, $currentUser->id);
-                \Log::info('friendship: ' . $friendship);
-                \Log::info('friendshipInverse: ' . $friendshipInverse);
+
                 if ($friendship == true && $friendshipInverse == true) {
                     // Despliegue información de amigos TODO: Revisar como pasar la imagen
                     if ($userToFollow && $userToFollow->id !== $currentUser->id) {
-                        return view('show_user', ['name' => $userToFollow->name, 'email' => $userToFollow->email]);
+                        return view('show_user', ['name' => $userToFollow->name, 'email' => $userToFollow->email,
+                                    'is_following' =>$friendship]);
                     } else {
                         return Redirect::route('dashboard');
                     }
                 } else {
                     // Despliegue información de seguidores TODO: Revisar como pasar la imagen
                     if ($userToFollow && $userToFollow->id !== $currentUser->id) {
-                        return view('show_user', ['name' => $userToFollow->name]);
+                        return view('show_user', ['name' => $userToFollow->name, 'is_following' =>$friendship]);
                     } else {
                         return Redirect::route('dashboard');
                     }
                 }
             } else {
                 // En caso de que se consiga seguir una oersona dos veces, se atrapa el error.
+                $friendship = $this->checkIfFollow($currentUser->id, $userToFollow->id);
                 if ($userToFollow && $userToFollow->id !== $currentUser->id) {
-                    return view('show_user', ['name' => $userToFollow->name, 'email' => $userToFollow->email]);
+                    return view('show_user', ['name' => $userToFollow->name, 'is_following' =>$friendship]);
                 } else {
                     return Redirect::route('dashboard');
                 }
@@ -103,12 +105,15 @@ class UserController extends Controller
             $existFollow = Follower::where('follower_id', $currentUser->id)
                                         ->where('user_id', $userToFollow->id)
                                         ->first();
+                                        \Log::info($existFollow);
             if ($existFollow) {
                 $existFollow->delete();
             }
+            $friendship = $this->checkIfFollow($currentUser->id, $userToFollow->id);
+            \Log::info($friendship);
             // Despliegue información de seguidores TODO: Revisar como pasar la imagen
             if ($userToFollow && $userToFollow->id !== $currentUser->id) {
-                return view('show_user', ['name' => $userToFollow->name]);
+                return view('show_user', ['name' => $userToFollow->name,'is_following' =>$friendship]);
             } else {
                 return Redirect::route('dashboard');
             }

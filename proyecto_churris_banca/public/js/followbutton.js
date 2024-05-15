@@ -1,16 +1,15 @@
-/*document.addEventListener('DOMContentLoaded', function () {
-    const followButton = document.getElementById('followButton');
-    const unfollowButton = document.getElementById('unfollowButton');
-    const followActionInput = document.getElementById('followAction');
-    
-    followButton.addEventListener('click', function () {
-        followActionInput.value = 'follow';
-        document.getElementById('followForm').submit();
-    });
+$(document).ready(function(){
+    console.log(isFollowing);
+    if (isFollowing) {
+        $('.buttonfollow').hide(); // Si está siguiendo, ocultar el botón de seguir
+        $('.buttonunfollow').show();
+    } else {
+        $('.buttonunfollow').hide(); // Si no está siguiendo, ocultar el botón de dejar de seguir
+        $('.buttonfollow').show();
+    }
 
-    unfollowButton.addEventListener('click', function () {
-        followActionInput.value = 'unfollow';
-        document.getElementById('followForm').submit();
-    });
-});*/
+    // Lógica para manejar el evento de hacer clic en los botones (usando AJAX, por ejemplo)
+});
+
+
 
