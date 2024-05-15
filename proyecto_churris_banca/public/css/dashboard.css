@@ -2,7 +2,7 @@
     font-weight: 600;
     font-size: 1.25rem;
     color: #050505;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     line-height: 1.4;
 }
 
@@ -91,4 +91,105 @@
     font-weight: 600;
     font-size: 40px;
     color: #050505;
+}
+
+/* Estilos para el formulario de publicación */
+.post-form {
+    display: flex;
+    flex-direction: column; /* Apila los elementos verticalmente */
+}
+
+.post-inputs {
+    margin-bottom: 10px; /* Espacio entre el área de texto y el botón */
+}
+
+.post-textarea {
+    width: 100%;
+    height: 100px;
+    resize: none;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.post-image-input {
+    margin-bottom: 10px;
+}
+
+.post-button {
+    padding: 8px 16px;
+    background-color: #DD4242;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.post-button-container {
+    margin-left: auto; /* Coloca el botón al final del contenedor */
+}
+
+.divisor-line {
+    margin-top: 20px; /* Agrega espacio encima de la línea divisora */
+    margin-bottom: 40px; /* Agrega espacio debajo de la línea divisora */
+    border: none; /* Asegúrate de que no haya ningún borde en la línea divisora */
+    border-top: 1px solid #ccc; /* Añade un borde superior */
+}
+
+/* Estilos para el área de las publicaciones */
+.post {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.post-header img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.post-info h3 {
+    margin: 0;
+}
+
+.post-info p {
+    margin: 0;
+    color: #888;
+}
+
+.post-content img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+/* Estilos para los botones de Me gusta y No me gusta */
+.like-button,
+.dislike-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 5px;
+}
+
+.like-button:hover,
+.dislike-button:hover {
+    color: #DD4242; /* Cambiar color al pasar el ratón */
+}
+
+.like-count,
+.dislike-count {
+    margin-right: 5px;
+    color: #888;
 }

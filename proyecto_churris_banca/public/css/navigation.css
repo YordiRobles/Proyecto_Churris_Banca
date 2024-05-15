@@ -1,0 +1,62 @@
+.nav-style {
+    background-color: #ffffff; /* Fondo blanco */
+    color: #000000; /* Color de texto negro */
+    border-bottom: 8px solid #F37474; /* Borde inferior gris claro */
+}
+
+.nav-style.dark-mode {
+    background-color: #2d2d2d; /* Fondo gris oscuro en modo oscuro */
+    color: #ffffff; /* Color de texto blanco en modo oscuro */
+    border-bottom-color: #474747; /* Borde inferior gris oscuro en modo oscuro */
+}
+
+.churrisbanca-button {
+    font-weight: bold;
+    font-size: 30px;
+    color: #606060;
+}
+
+/* Estilos para el estado de hover */
+.churrisbanca-button:hover {
+    color: #333;
+}
+
+/* Estilos para el estado enfocado */
+.churrisbanca-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #ff0000; /* Añade un contorno rojo cuando el botón está enfocado */
+}
+
+/* Por defecto, sin subrayado */
+.nav-socialnet {
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+/* Cuando se encuentra dentro de la clase .active (indicando que está en la página de Red Social), subrayado */
+.nav-socialnet.active {
+    text-decoration: underline;
+}
+
+/*---------------------------------------------------*/
+
+.text-underline {
+    position: relative;
+    text-decoration: none;
+}
+
+.text-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 20px; /* Ajusta la posición del subrayado según tu preferencia */
+    width: 100%;
+    height: 2px; /* Ajusta el grosor del subrayado según tu preferencia */
+    background-color: #000000; /* Ajusta el color del subrayado según tu preferencia */
+    transition: height 0.2s ease; /* Agrega una transición para un efecto suave */
+}
+
+.text-underline:hover::after,
+.text-underline:focus::after {
+    height: 3px; /* Ajusta el grosor del subrayado al pasar el cursor sobre el enlace o enfocarlo */
+}

@@ -73,23 +73,24 @@
 }
 
 .welcome-text {
-    display: flex; /* Esto reemplaza flex */
-    justify-content: center; /* Esto reemplaza justify-center */
-    margin-top: -1.5rem; /* Esto reemplaza mt-6 */
-    font-size: 5.25rem; /* Esto reemplaza text-xl */
-    font-weight: 600; /* Esto reemplaza font-semibold */
-    color: #4B5563; /* Esto reemplaza text-gray-900 */
-    position: relative; /* Agregar posición relativa para el subrayado */
+    display: flex;
+    justify-content: center;
+    margin-top: -1.5rem;
+    font-size: 5.25rem;
+    font-weight: 600;
+    color: #4B5563;
+    position: relative;
 }
 
 .welcome-text::after {
-    content: ''; /* Contenido pseudo-elemento */
-    position: absolute; /* Posición absoluta */
-    bottom: 0.1em; /* Ajustar la posición del subrayado */
-    left: 0; /* Alinear con el inicio del texto */
-    width: 100%; /* Ancho completo */
-    height: 0.1em; /* Grosor del subrayado */
-    background-color: #F37474; /* Color del subrayado */
+    content: '';
+    position: absolute;
+    bottom: 0.1em;
+    left: 50%; /* Alinea con la mitad del contenedor */
+    transform: translateX(-50%); /* Mueve el 50% del ancho del pseudo-elemento hacia la izquierda */
+    width: 60%;
+    height: 0.1em;
+    background-color: #F37474;
 }
 
 /* Estilos para el modo oscuro */
@@ -106,3 +107,9 @@
     display: flex;
     margin-top: 3rem;
 }
+
+.rounded-image {
+    width: 44%;
+    border-radius: 10%; /* Hace que la imagen sea redondeada */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Añade un efecto de sombra */
+  }

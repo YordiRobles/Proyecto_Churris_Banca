@@ -1,5 +1,4 @@
 $(document).ready(function(){
-    console.log(isFollowing);
     if (isFollowing) {
         $('.buttonfollow').hide();
         $('.buttonunfollow').show();
