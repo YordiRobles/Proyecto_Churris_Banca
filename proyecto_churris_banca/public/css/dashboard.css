@@ -180,12 +180,12 @@
     border: none;
     cursor: pointer;
     font-size: 16px;
-    margin-right: 10px;
+    margin-right: 5px;
 }
 
 .like-button:hover,
 .dislike-button:hover {
-    color: #1DA1F2; /* Cambiar color al pasar el ratón */
+    color: #DD4242; /* Cambiar color al pasar el ratón */
 }
 
 .like-count,

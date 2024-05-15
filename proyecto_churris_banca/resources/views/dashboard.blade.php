@@ -20,7 +20,8 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <!-- Formulario para hacer una nueva publicación -->
-                    <form class="post-form" action="#" method="POST">
+                    <form class="post-form" action="{{ route('store.post') }}" method="POST" enctype="multipart/form-data">
+                        @csrf <!-- Campo de token CSRF -->
                         <div class="post-inputs">
                             <textarea name="post-content" placeholder="¿Qué estás pensando?" class="post-textarea"></textarea>
                             <input type="file" name="post-image" accept="image/*" class="post-image-input">
@@ -29,49 +30,38 @@
                             <button type="submit" class="post-button">Publicar</button>
                         </div>
                     </form>
+                    @if(session('success'))
+                        <div id="success-alert" class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
                     <hr class="divisor-line">
                     <!-- Área donde se muestran las publicaciones -->
                     <div class="post-container">
-                        <!-- Publicación de ejemplo 1 -->
-                        <div class="post">
-                            <div class="post-header">
-                                <img src="img/lupa.jpg" alt="Avatar del usuario">
-                                <div class="post-info">
-                                    <h3>Nombre del Usuario</h3>
-                                    <p>Fecha y hora de la publicación</p>
+                        @foreach($posts as $post)
+                                <div class="post">
+                                    <div class="post-header">
+                                        <img src="{{ $post->user->avatar }}" alt="Avatar del usuario">
+                                        <div class="post-info">
+                                            <h3>{{ $post->user->name }}</h3>
+                                            <p>{{ $post->created_at }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="post-content">
+                                        <p>{{ $post->text }}</p>
+                                        @if($post->image)
+                                        <img src="{{ $post->image }}" alt="Imagen adjunta">
+                                        @endif
+                                    </div>
+                                    <div class="post-actions">
+                                        <hr>
+                                        <button class="like-button">Me gusta</button>
+                                        <span class="like-count">{{ $post->likes_count }}</span>
+                                        <button class="dislike-button">No me gusta</button>
+                                        <span class="dislike-count">{{ $post->dislikes_count }}</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="post-content">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at mattis leo, nec faucibus augue. Sed leo massa, sodales a varius at, imperdiet et libero. Maecenas hendrerit, enim non tempor euismod, ipsum mauris imperdiet nibh, in fermentum est libero eget ipsum. Fusce in euismod ligula. Nulla in auctor justo, sit amet tincidunt enim. Pellentesque quis dui maximus, rutrum arcu eget, faucibus justo. Praesent interdum est sed quam dictum, id tincidunt eros rutrum. Cras et est hendrerit, congue leo nec, scelerisque dolor. Integer mollis aliquet lobortis. Donec eget neque mattis, lacinia nunc sed, laoreet felis. Integer lacus ante, ullamcorper quis tincidunt non, viverra et lacus. Cras purus erat, egestas vel sodales id, consequat sit amet sapien. Cras pellentesque ac libero id viverra. Aliquam malesuada nunc imperdiet consectetur gravida. Praesent placerat justo risus. </p>
-                                <img src="img/WelcomeChurrisBanca.png" alt="Imagen adjunta">
-                            </div>
-                            <div class="post-actions">
-                                <button class="like-button">Me gusta</button>
-                                <span class="like-count">100</span>
-                                <button class="dislike-button">No me gusta</button>
-                                <span class="dislike-count">10</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Publicación de ejemplo 2 -->
-                        <div class="post">
-                            <div class="post-header">
-                                <img src="img/lupa.jpg" alt="Avatar del usuario">
-                                <div class="post-info">
-                                    <h3>Nombre del Usuario</h3>
-                                    <p>Fecha y hora de la publicación</p>
-                                </div>
-                            </div>
-                            <div class="post-content">
-                                <p>Contenido de la publicación...</p>
-                            </div>
-                            <div class="post-actions">
-                                <button class="like-button">Me gusta</button>
-                                <span class="like-count">50</span>
-                                <button class="dislike-button">No me gusta</button>
-                                <span class="dislike-count">5</span>
-                            </div>
-                        </div>
+                            @endforeach
                     </div>
                 </div>
             </div>
@@ -79,3 +69,9 @@
     </div>
 </x-app-layout>
 
+<script>
+    // Esperar 5 segundos y luego ocultar el mensaje de éxito
+    setTimeout(function() {
+        document.getElementById('success-alert').style.display = 'none';
+    }, 3000); // 5000 milisegundos = 5 segundos
+</script>
