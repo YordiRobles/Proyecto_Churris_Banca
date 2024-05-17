@@ -21,7 +21,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <!-- Formulario para hacer una nueva publicación -->
                     <form class="post-form" action="{{ route('store.post') }}" method="POST" enctype="multipart/form-data">
-                        @csrf <!-- Campo de token CSRF -->
+                        @csrf
                         <div class="post-inputs">
                             <textarea name="post-content" placeholder="¿Qué estás pensando?" class="post-textarea"></textarea>
                             <input type="file" name="post-image" accept="image/*" class="post-image-input">
@@ -39,29 +39,29 @@
                     <!-- Área donde se muestran las publicaciones -->
                     <div class="post-container">
                         @foreach($posts as $post)
-                                <div class="post">
-                                    <div class="post-header">
-                                        <img src="{{ $post->user->avatar }}" alt="Avatar del usuario">
-                                        <div class="post-info">
-                                            <h3>{{ $post->user->name }}</h3>
-                                            <p>{{ $post->created_at }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="post-content">
-                                        <p>{{ $post->text }}</p>
-                                        @if($post->image)
-                                        <img src="{{ $post->image }}" alt="Imagen adjunta">
-                                        @endif
-                                    </div>
-                                    <div class="post-actions">
-                                        <hr>
-                                        <button class="like-button">Me gusta</button>
-                                        <span class="like-count">{{ $post->likes_count }}</span>
-                                        <button class="dislike-button">No me gusta</button>
-                                        <span class="dislike-count">{{ $post->dislikes_count }}</span>
+                            <div class="post">
+                                <div class="post-header">
+                                    <img src="{{ $post->user->avatar }}" alt="Avatar del usuario">
+                                    <div class="post-info">
+                                        <h3>{{ $post->user->name }}</h3>
+                                        <p>{{ $post->created_at }}</p>
                                     </div>
                                 </div>
-                            @endforeach
+                                <div class="post-content">
+                                    <p>{{ $post->text }}</p>
+                                    @if($post->image)
+                                        <img src="{{ asset('storage/images/' . $post->image) }}" alt="Imagen adjunta"> <!-- <img src="{{ $post->image }}" alt="Imagen adjunta"> -->
+                                    @endif
+                                </div>
+                                <div class="post-actions">
+                                    <hr>
+                                    <button class="like-button">Me gusta</button>
+                                    <span class="like-count">{{ $post->likes_count }}</span>
+                                    <button class="dislike-button">No me gusta</button>
+                                    <span class="dislike-count">{{ $post->dislikes_count }}</span>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -70,8 +70,9 @@
 </x-app-layout>
 
 <script>
-    // Esperar 5 segundos y luego ocultar el mensaje de éxito
+    
+    // Oculta el mensaje de éxito después de un tiempo.
     setTimeout(function() {
         document.getElementById('success-alert').style.display = 'none';
-    }, 3000); // 5000 milisegundos = 5 segundos
+    }, 3000);
 </script>
