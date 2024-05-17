@@ -18,7 +18,7 @@
         @csrf
     </form>
     <div class="flex justify-center">
-        <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+        <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data" >
             @csrf
             @method('patch')
 
@@ -59,8 +59,9 @@
             <div class="form-group">
                 <input type="file" name="file_user" id="addImage" accept="image/*">
                 <br/>
+                <script src= "{{ asset('/js/controlImage.js ') }}" defer></script>
             </div>
-               <!-- <script src= "{{ asset('/js/controlImage.js ') }}" defer></script>-->
+               
 
             <div class="flex items-center gap-4">
                 <x-primary-button>{{ __('Guardar') }}</x-primary-button>
