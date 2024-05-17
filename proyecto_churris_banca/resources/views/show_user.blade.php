@@ -18,6 +18,11 @@
             </div>
         </x-slot>
         <div class="container">
+            @if (isset($image_data))
+                <div class="title-container">
+                    <img src="data:{{ $mime_type }};base64,{{ base64_encode($image_data) }}" alt="Imagen de Perfil" class = "imageUser">
+                </div>
+            @endif
             @if (isset($name))
                 <div class="title-container">
                     <h2 class="title-username">{{ $name }}</h2>
