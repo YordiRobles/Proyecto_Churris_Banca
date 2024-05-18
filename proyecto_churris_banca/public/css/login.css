@@ -91,3 +91,14 @@ body {
     cursor: pointer;
     align-self: center;
 }
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+.status {
+    color: green;
+    font-size: 14px;
+    margin-top: 5px;
+}
