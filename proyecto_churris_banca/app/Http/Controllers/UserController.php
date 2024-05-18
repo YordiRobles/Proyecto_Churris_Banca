@@ -151,7 +151,7 @@ class UserController extends Controller
         $defaultImageData = file_get_contents($defaultImagePath);
         $defaultImageInfo = getimagesize($defaultImagePath);
         return [
-            'imageData' => $defaultImageData,
+            'imageData' => base64_encode($defaultImageData),
             'mimeType' => $defaultImageInfo['mime']
         ];
     }

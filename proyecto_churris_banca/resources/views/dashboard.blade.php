@@ -41,7 +41,7 @@
                         @foreach($posts as $post)
                             <div class="post">
                                 <div class="post-header">
-                                    <img src="/img/WelcomeChurrisBanca.png" alt="Avatar del usuario">
+                                <img src="data:{{ $post->user->mime_type }};base64,{{ $post->user->image_data }}" alt="Imagen adjunta">
                                     <div class="post-info">
                                         <h3>{{ $post->user->name }}</h3>
                                         <p>{{ $post->created_at }}</p>
@@ -72,7 +72,10 @@
 <script>
     
     // Oculta el mensaje de éxito después de un tiempo.
-    setTimeout(function() {
-        document.getElementById('success-alert').style.display = 'none';
-    }, 3000);
+    const successAlert = document.getElementById('success-alert');
+    if (successAlert) {
+        setTimeout(function() {
+            successAlert.style.display = 'none';
+        }, 3000);
+    }
 </script>
