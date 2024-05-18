@@ -41,7 +41,7 @@
                         @foreach($posts as $post)
                             <div class="post">
                                 <div class="post-header">
-                                    <img src="{{ $post->user->avatar }}" alt="Avatar del usuario">
+                                    <img src="/img/WelcomeChurrisBanca.png" alt="Avatar del usuario">
                                     <div class="post-info">
                                         <h3>{{ $post->user->name }}</h3>
                                         <p>{{ $post->created_at }}</p>
@@ -49,12 +49,12 @@
                                 </div>
                                 <div class="post-content">
                                     <p>{{ $post->text }}</p>
-                                    @if($post->image)
-                                        <img src="{{ asset('storage/images/' . $post->image) }}" alt="Imagen adjunta"> <!-- <img src="{{ $post->image }}" alt="Imagen adjunta"> -->
+                                    @if($post->image_data)
+                                        <img src="data:{{ $post->mime_type }};base64,{{ $post->image_data }}" alt="Imagen adjunta">
                                     @endif
                                 </div>
                                 <div class="post-actions">
-                                    <hr>
+                                    <hr class="buttons-divisor-line">
                                     <button class="like-button">Me gusta</button>
                                     <span class="like-count">{{ $post->likes_count }}</span>
                                     <button class="dislike-button">No me gusta</button>

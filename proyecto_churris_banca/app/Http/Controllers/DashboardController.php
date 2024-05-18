@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Models\Publication;
 
 class DashboardController extends Controller
@@ -16,23 +15,24 @@ class DashboardController extends Controller
     public function storePost(Request $request)
     {
         $request->validate([
-            'post-content' => 'required|max:255', // Ajusta las reglas de validación según tus necesidades
-            'post-image' => 'image|mimes:jpeg,png,jpg,gif|max:2048' // Ajusta las reglas de validación según tus necesidades
+            'post-content' => 'required|max:255',
+            'post-image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
-
+    
         $user = auth()->user();
-
+    
         $publication = new Publication();
         $publication->user_id = $user->id;
         $publication->text = $request->input('post-content');
-
+    
         if ($request->hasFile('post-image')) {
-            $imagePath = $request->file('post-image')->store('public/images');
-            $publication->image = basename($imagePath);
+            $image = $request->file('post-image');
+            $imageData = file_get_contents($image->getRealPath());
+            $publication->image_data = $imageData; // Almacena los datos de la imagen en el campo MEDIUMBLOB
         }
-
+    
         $publication->save();
-
+    
         return redirect()->back()->with('success', 'Se ha realizado la publicación');
     }
 
@@ -47,6 +47,29 @@ class DashboardController extends Controller
                             ->orderByDesc('created_at')
                             ->get();
 
+        $posts->each(function ($post) {
+            $imageDetails = $this->getImage($post->image_data);
+            $post->image_data = $imageDetails['imageData'];
+            $post->mime_type = $imageDetails['mimeType'];
+        });
+
         return view('dashboard', compact('posts'));
+    }
+
+    private function getImage($image_data)
+    {
+        if ($image_data) {
+            $imageInfo = getimagesizefromstring($image_data);
+            if ($imageInfo) {
+                return [
+                    'imageData' => base64_encode($image_data),
+                    'mimeType' => $imageInfo['mime']
+                ];
+            }
+        }
+        return [
+            'imageData' => null,
+            'mimeType' => null
+        ];
     }
 }
