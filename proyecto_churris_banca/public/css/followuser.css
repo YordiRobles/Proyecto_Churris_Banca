@@ -176,3 +176,8 @@
 .follow-buttons button {
   margin-top: 10px;
 }
+
+.imageUser {
+  width: 150px;
+  height: auto;
+}

@@ -32,16 +32,20 @@ class UserController extends Controller
         $user = User::where('name', $name)->first(); 
         $friendship = $this->checkIfFollow($currentUser->id, $user->id);
         $friendshipInverse = $this->checkIfFollow($user->id, $currentUser->id);
+        $imageDetails = $this->getImage($user->image_data);
+        $imageData = $imageDetails['imageData'];
+        $mimeType = $imageDetails['mimeType'];
 
         if ($friendship == true && $friendshipInverse == true) {
-            // Despliegue información de amigos TODO: Revisar como pasar la imagen
+            // Despliegue información de amigos
             if ($user && $user->id !== $currentUser->id) {
-                return view('show_user', ['name' => $user->name, 'email' => $user->email, 'is_following' =>$friendship]);
+                return view('show_user', ['name' => $user->name, 'email' => $user->email, 'is_following' =>$friendship,
+                            'image_data' => $imageData,'mime_type' => $mimeType]);
             } else {
                 return Redirect::route('dashboard');
             }
         } else {
-            // Despliegue información de seguidores TODO: Revisar como pasar la imagen
+            // Despliegue información de seguidores
             if ($user && $user->id !== $currentUser->id) {
                 return view('show_user', ['name' => $user->name, 'is_following' =>$friendship]);
             } else {
@@ -57,6 +61,9 @@ class UserController extends Controller
         $unfollow = $request->input('unfollow');
         $userToFollow = User::where('name', $name)->first(); 
         $currentUser = Auth::user();
+        $imageDetails = $this->getImage($userToFollow->image_data);
+        $imageData = $imageDetails['imageData'];
+        $mimeType = $imageDetails['mimeType'];
     
         // Si se sigue a un usuario
         if ($follow === '1' && !$unfollow){
@@ -78,12 +85,12 @@ class UserController extends Controller
                     // Despliegue información de amigos TODO: Revisar como pasar la imagen
                     if ($userToFollow && $userToFollow->id !== $currentUser->id) {
                         return view('show_user', ['name' => $userToFollow->name, 'email' => $userToFollow->email,
-                                    'is_following' =>$friendship]);
+                                    'is_following' =>$friendship,'image_data' => $imageData,'mime_type' => $mimeType]);
                     } else {
                         return Redirect::route('dashboard');
                     }
                 } else {
-                    // Despliegue información de seguidores TODO: Revisar como pasar la imagen
+                    // Despliegue información de seguidores
                     if ($userToFollow && $userToFollow->id !== $currentUser->id) {
                         return view('show_user', ['name' => $userToFollow->name, 'is_following' =>$friendship]);
                     } else {
@@ -91,7 +98,7 @@ class UserController extends Controller
                     }
                 }
             } else {
-                // En caso de que se consiga seguir una oersona dos veces, se atrapa el error.
+                // En caso de que se consiga seguir una persona dos veces, se atrapa el error.
                 $friendship = $this->checkIfFollow($currentUser->id, $userToFollow->id);
                 if ($userToFollow && $userToFollow->id !== $currentUser->id) {
                     return view('show_user', ['name' => $userToFollow->name, 'is_following' =>$friendship]);
@@ -110,7 +117,7 @@ class UserController extends Controller
                 $existFollow->delete();
             }
             $friendship = $this->checkIfFollow($currentUser->id, $userToFollow->id);
-            // Despliegue información de seguidores TODO: Revisar como pasar la imagen
+            // Despliegue información de seguidores
             if ($userToFollow && $userToFollow->id !== $currentUser->id) {
                 return view('show_user', ['name' => $userToFollow->name,'is_following' =>$friendship]);
             } else {
@@ -127,4 +134,26 @@ class UserController extends Controller
                               ->first();
         return $friendship !== null;
     }
+
+    private function getImage($image_data)
+    {
+        if ($image_data) {
+            $imageInfo = getimagesizefromstring($image_data);
+            if ($imageInfo) {
+                return [
+                    'imageData' => $image_data,
+                    'mimeType' => $imageInfo['mime']
+                ];
+            }
+        }
+        // Ruta a la imagen predeterminada
+        $defaultImagePath = public_path('img/usuario-de-perfil.png');
+        $defaultImageData = file_get_contents($defaultImagePath);
+        $defaultImageInfo = getimagesize($defaultImagePath);
+        return [
+            'imageData' => $defaultImageData,
+            'mimeType' => $defaultImageInfo['mime']
+        ];
+    }
+    
 }
