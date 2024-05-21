@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/searchusers', [UserController::class, 'searchUsers'])->name('search.users');
     Route::get('/showuser/{name}', [UserController::class, 'show'])->name('user.show');
+    Route::post('/showuser/{name}', [UserController::class, 'followuser'])->name('user.follow');
 
     // Dashboard Routes
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
