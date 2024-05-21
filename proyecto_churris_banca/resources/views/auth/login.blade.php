@@ -14,6 +14,8 @@
 
     </head>
     <body>
+        <!-- Session Status -->
+        <x-auth-session-status class="mb-4" :status="session('status')" />
 
         <div class="max-w-7xl mx-auto p-6 lg:p-8">
             <div class="inicio-container">
@@ -24,14 +26,20 @@
             <div class="card">
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
-                    <div>
-                        <label for="email">Nombre usuario:</label>
-                        <input id="email" type="email" name="email" required autofocus autocomplete="username">
-                    </div>
-                    <div>
-                        <label for="password">Contraseña:</label>
-                        <input id="password" type="password" name="password" required autocomplete="current-password">
-                    </div>
+
+                    <!-- Email Address -->
+                <div>
+                    <label for="email">Correo del usuario:</label>
+                    <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username">
+                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                </div>
+
+                    <!-- Password -->
+                <div>
+                    <label for="password">Contraseña:</label>
+                    <input id="password" type="password" name="password" required autocomplete="current-password">
+                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                </div>
                     <button type="submit">Continuar</button>
                 </form>
             </div>
