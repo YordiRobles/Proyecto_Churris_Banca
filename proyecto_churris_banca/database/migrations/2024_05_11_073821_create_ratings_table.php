@@ -12,12 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ratings', function (Blueprint $table) {
-            $table->foreignId('publication_id')->constrained('publications')->onDelete('cascade');
-            $table->integer('likes')->default(0);
-            $table->integer('dislikes')->default(0);
-            $table->timestamps();
-
-            $table->primary('publication_id');
+            $table->unsignedBigInteger('publication_id');
+            $table->unsignedBigInteger('user_id');
+            $table->boolean('action');
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            
+            $table->primary(['publication_id', 'user_id']);
+            $table->foreign('publication_id')->references('id')->on('publications')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
