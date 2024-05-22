@@ -200,3 +200,13 @@
     margin-right: 5px;
     color: #888;
 }
+
+.like-button.liked {
+    color: blue; /* Cambia el color del texto a azul */
+    font-weight: bold; /* Resalta el texto en negrita */
+}
+
+.dislike-button.disliked {
+    color: red; /* Cambia el color del texto a rojo */
+    font-weight: bold; /* Resalta el texto en negrita */
+}

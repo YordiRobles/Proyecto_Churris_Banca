@@ -41,7 +41,7 @@
                         @foreach($posts as $post)
                             <div class="post">
                                 <div class="post-header">
-                                <img src="data:{{ $post->user->mime_type }};base64,{{ $post->user->image_data }}" alt="Imagen adjunta">
+                                    <img src="data:{{ $post->user->mime_type }};base64,{{ $post->user->image_data }}" alt="Imagen adjunta">
                                     <div class="post-info">
                                         <h3>{{ $post->user->name }}</h3>
                                         <p>{{ $post->created_at }}</p>
@@ -55,10 +55,10 @@
                                 </div>
                                 <div class="post-actions">
                                     <hr class="buttons-divisor-line">
-                                    <button class="like-button">Me gusta</button>
-                                    <span class="like-count">{{ $post->likes_count }}</span>
-                                    <button class="dislike-button">No me gusta</button>
-                                    <span class="dislike-count">{{ $post->dislikes_count }}</span>
+                                    <button class="like-button {{ $post->likes()->where('user_id', $user->id)->exists() ? 'liked' : '' }}" data-post-id="{{ $post->id }}">Me gusta</button>
+                                    <span class="like-count" id="like-count-{{ $post->id }}">{{ $post->likes_count }}</span>
+                                    <button class="dislike-button {{ $post->dislikes()->where('user_id', $user->id)->exists() ? 'disliked' : '' }}" data-post-id="{{ $post->id }}">No me gusta</button>
+                                    <span class="dislike-count" id="dislike-count-{{ $post->id }}">{{ $post->dislikes_count }}</span>
                                 </div>
                             </div>
                         @endforeach
@@ -69,13 +69,5 @@
     </div>
 </x-app-layout>
 
-<script>
-    
-    // Oculta el mensaje de éxito después de un tiempo.
-    const successAlert = document.getElementById('success-alert');
-    if (successAlert) {
-        setTimeout(function() {
-            successAlert.style.display = 'none';
-        }, 3000);
-    }
-</script>
+<script src="{{ asset('js/actionbuttons.js') }}"></script>
+<script src="{{ asset('js/pagination.js') }}"></script>

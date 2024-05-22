@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Publication;
+use App\Models\Rating;
 use App\Models\User;
 
 class DashboardController extends Controller
@@ -101,5 +102,69 @@ class DashboardController extends Controller
         ];
     }
 
+    public function likePost(Request $request)
+    {
+        $user = auth()->user();
+        $post = Publication::findOrFail($request->post_id);
     
+        // Verifica si el usuario ya ha dado "like" a la publicación
+        $existingRating = $post->likes()->where('user_id', $user->id)->first();
+        $existingDislikeRating = $post->dislikes()->where('user_id', $user->id)->first();
+    
+        if ($existingDislikeRating) {
+            // Eliminar el dislike del usuario autenticado
+            $existingDislikeRating->delete();
+            $post->decrement('dislikes_count');
+        }
+    
+        if (!$existingRating) {
+            // El usuario no ha dado "like" previamente, se agrega el "like"
+            $post->likes()->create([
+                'user_id' => $user->id,
+                'action' => 1
+            ]);
+            $post->increment('likes_count');
+        } else {
+            // El usuario ya ha dado "like" previamente, se elimina el "like"
+            $existingRating->delete();
+            $post->decrement('likes_count');
+        }
+    
+        return response()->json([
+            'likes_count' => $post->likes_count,
+            'dislikes_count' => $post->dislikes_count
+        ]);
+    }
+    
+    public function dislikePost(Request $request)
+    {
+        $user = auth()->user();
+        $post = Publication::findOrFail($request->post_id);
+    
+        // Verifica si el usuario ya ha dado "dislike" a la publicación
+        $existingRating = $post->dislikes()->where('user_id', $user->id)->first();
+        $existingLikeRating = $post->likes()->where('user_id', $user->id)->first();
+    
+        if ($existingLikeRating) {
+            // Eliminar el like del usuario autenticado
+            $existingLikeRating->delete();
+            $post->decrement('likes_count');
+        }
+    
+        if (!$existingRating) {
+            $post->dislikes()->create([
+                'user_id' => $user->id,
+                'action' => 0
+            ]);
+            $post->increment('dislikes_count');
+        } else {
+            $existingRating->delete();
+            $post->decrement('dislikes_count');
+        }
+    
+        return response()->json([
+            'likes_count' => $post->likes_count,
+            'dislikes_count' => $post->dislikes_count
+        ]);
+    }
 }
