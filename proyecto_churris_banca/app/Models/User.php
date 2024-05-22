@@ -55,4 +55,14 @@ class User extends Authenticatable
                     ->withPivot('created_at', 'updated_at')
                     ->as('following_details');
     }
+
+    public function posts()
+    {
+        return $this->hasMany(Publication::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Rating::class);
+    }
 }
