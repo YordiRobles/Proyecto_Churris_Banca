@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SeeProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,6 +36,11 @@ Route::middleware('auth')->group(function () {
     // Dashboard Routes
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/store-post', [DashboardController::class, 'storePost'])->name('store.post');
+
+    //SeeProfile
+    Route::get('/seeprofile/{id}', [SeeProfileController::class, 'show'])->name('seeprofile');
+
+
 });
 
 require __DIR__.'/auth.php';
