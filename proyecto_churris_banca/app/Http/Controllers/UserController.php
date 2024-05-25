@@ -141,7 +141,7 @@ class UserController extends Controller
             $imageInfo = getimagesizefromstring($image_data);
             if ($imageInfo) {
                 return [
-                    'imageData' => $image_data,
+                    'imageData' => base64_encode($image_data),
                     'mimeType' => $imageInfo['mime']
                 ];
             }
@@ -151,7 +151,7 @@ class UserController extends Controller
         $defaultImageData = file_get_contents($defaultImagePath);
         $defaultImageInfo = getimagesize($defaultImagePath);
         return [
-            'imageData' => $defaultImageData,
+            'imageData' => base64_encode($defaultImageData),
             'mimeType' => $defaultImageInfo['mime']
         ];
     }
