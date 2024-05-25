@@ -35,9 +35,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/show-posts', [DashboardController::class, 'showPosts'])->name('show.posts');
     Route::post('/like-post', [DashboardController::class, 'likePost'])->name('like.post');
     Route::post('/dislike-post', [DashboardController::class, 'dislikePost'])->name('dislike.post');
-
+    //agregacion para borrar post
+    Route::delete('/publications/{id}', [DashboardController::class, 'destroy'])->name('publications.destroy');
+    
     // SeeProfile Route
     Route::get('/seeprofile/{id}', [SeeProfileController::class, 'show'])->name('seeprofile');
+    
 });
 
 require __DIR__.'/auth.php';

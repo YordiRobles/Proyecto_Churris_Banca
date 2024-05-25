@@ -167,4 +167,19 @@ class DashboardController extends Controller
             'dislikes_count' => $post->dislikes_count
         ]);
     }
+
+    // Se agrega metodo para borrar
+    public function destroy($id)
+    {
+        $publication = Publication::findOrFail($id);
+
+        // Verificar si el usuario actual es el dueño de la publicación
+        if (auth()->user()->id !== $publication->user_id) {
+            return redirect()->route('dashboard')->with('error', 'No tienes permiso para eliminar esta publicación.');
+        }
+
+        $publication->delete();
+
+        return redirect()->route('dashboard')->with('success', 'Publicación eliminada correctamente.');
+    }
 }

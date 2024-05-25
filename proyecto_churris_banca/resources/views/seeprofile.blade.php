@@ -85,6 +85,12 @@
                                         <span class="like-count">{{ $publication->likes_count }}</span>
                                         <button class="dislike-button">No me gusta</button>
                                         <span class="dislike-count">{{ $publication->dislikes_count }}</span>
+                                        <!-- Formulario de eliminación -->
+                                        <form action="{{ route('publications.destroy', $publication->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="delete-button">Eliminar</button>
+                                        </form>
                                     </div>
                                 </div>
                             @endforeach
