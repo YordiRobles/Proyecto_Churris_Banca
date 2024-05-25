@@ -48,8 +48,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Publication::class);
     }
-    
-   
+
+
     /**
      * get the number of followers.
      *

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('text', 200);
-            $table->mediumBlob('image_data')->nullable();
+            $table->binary('image_data')->nullable();
             $table->integer('likes_count')->default(0);
             $table->integer('dislikes_count')->default(0);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));

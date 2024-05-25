@@ -15,7 +15,7 @@ class SeeProfileController extends Controller
     public function show($id)
     {
         // Obtener el usuario por su ID
-        $user = User::findOrFail($id);
+        $user = User::with('publications')->findOrFail($id);
         
         // Contar los seguidores del usuario
         $followersCount = $user->followers()->count();
