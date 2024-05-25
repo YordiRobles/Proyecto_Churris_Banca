@@ -37,7 +37,7 @@
                     @endif
                     <hr class="divisor-line">
                     <!-- Área donde se muestran las publicaciones -->
-                    <div class="post-container">
+                    <div id="post-container">
                         @foreach($posts as $post)
                             <div class="post">
                                 <div class="post-header">
@@ -65,6 +65,10 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="pagination">
+            <button id="prev-page" class="page-button" disabled>Anterior</button>
+            <button id="next-page" class="page-button">Siguiente</button>
         </div>
     </div>
 </x-app-layout>

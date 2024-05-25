@@ -210,3 +210,29 @@
     color: red; /* Cambia el color del texto a rojo */
     font-weight: bold; /* Resalta el texto en negrita */
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.page-button {
+    background-color: #DD4242;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.page-button:hover {
+    background-color: #DD4242;
+}
+
+.page-button:disabled {
+    background-color: #cbcdcf;
+    cursor: not-allowed;
+}
