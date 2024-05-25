@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SeeProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/show-posts', [DashboardController::class, 'showPosts'])->name('show.posts');
     Route::post('/like-post', [DashboardController::class, 'likePost'])->name('like.post');
     Route::post('/dislike-post', [DashboardController::class, 'dislikePost'])->name('dislike.post');
+
+    // SeeProfile Route
+    Route::get('/seeprofile/{id}', [SeeProfileController::class, 'show'])->name('seeprofile');
 });
 
 require __DIR__.'/auth.php';
