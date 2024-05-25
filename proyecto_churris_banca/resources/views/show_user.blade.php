@@ -20,7 +20,7 @@
         <div class="container">
             @if (isset($image_data))
                 <div class="title-container">
-                    <img src="data:{{ $mime_type }};base64,{{ base64_encode($image_data) }}" alt="Imagen de Perfil" class = "imageUser">
+                    <img src="data:{{ $mime_type }};base64,{{ $image_data }}" alt="Imagen de Perfil" class = "imageUser">
                 </div>
             @endif
             @if (isset($name))

@@ -18,7 +18,7 @@ class Publication extends Model
     protected $fillable = [
         'user_id', 
         'text', 
-        'image', 
+        'image_data', 
         'likes_count', 
         'dislikes_count'
     ];
@@ -41,5 +41,15 @@ class Publication extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Rating::class)->where('action', 1);
+    }
+
+    public function dislikes()
+    {
+        return $this->hasMany(Rating::class)->where('action', 0);
     }
 }
