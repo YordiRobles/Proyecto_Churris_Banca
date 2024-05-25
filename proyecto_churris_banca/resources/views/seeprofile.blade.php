@@ -12,7 +12,7 @@
         .profile-header img {
             border-radius: 50%;
             margin-right: 20px;
-            width: 150px; /* Ajusta el tamaño de la imagen según tus necesidades */
+            width: 150px; /* Ajusta el tamaño de la imagen*/
             height: 150px;
             object-fit: cover;
         }
