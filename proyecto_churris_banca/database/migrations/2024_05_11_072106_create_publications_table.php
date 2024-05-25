@@ -15,11 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('text', 200);
-            $table->binary('image_data')->nullable();
+            $table->string('image')->nullable();
             $table->integer('likes_count')->default(0);
             $table->integer('dislikes_count')->default(0);
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
 
             // Define foreign key relationship with the 'users' table
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
