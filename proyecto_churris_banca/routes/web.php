@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SeeProfileController;
+use App\Http\Controllers\VerifyUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +41,15 @@ Route::middleware('auth')->group(function () {
     
     // SeeProfile Route
     Route::get('/seeprofile/{id}', [SeeProfileController::class, 'show'])->name('seeprofile');
-    
+
+    //Route::get('/banking-net', [VerifyUserController::class, 'verifyUserCertificate'])->name('banking.net');
+    Route::get('/verify-user', [VerifyUserController::class, 'displayView'])->name('verify.user');
+
+    Route::post('/verify-user', [VerifyUserController::class, 'verifyPassword'])->name('verify.user.submit');
+
+    Route::get('/banking-net', function () {
+        return view('banking_net');
+    })->name('bankingnet');
 });
 
 require __DIR__.'/auth.php';
