@@ -25,17 +25,13 @@ class VerifyUserController extends Controller
             'password' => 'required|string',
         ]);
 
-        // Verificar la contraseña del usuario autenticado
         if (Hash::check($request->password, Auth::user()->password)) {
-        // Llamar a la función verifyUserCertificate()
-            return $this->verifyUserCertificate();
-            //return Redirect::route('bankingnet');
+            $request->session()->put('user_verified', true);
+            //return $this->verifyUserCertificate();
+            return Redirect::route('bankingnet');
+        } else {
+            return redirect()->back()->with('failed', 'La contraseña no coincide');
         }
-
-        // Lanza una excepción si la contraseña es incorrecta
-        throw ValidationException::withMessages([
-            'password' => ['La contraseña es incorrecta.'],
-        ]);
     }
 
     public function verifyUserCertificate()

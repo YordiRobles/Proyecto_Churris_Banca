@@ -36,3 +36,5 @@
         </div>
     </div>
 </x-app-layout>
+
+<script src="{{ asset('js/messages.js') }}"></script>

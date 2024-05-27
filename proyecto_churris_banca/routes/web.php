@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SeeProfileController;
 use App\Http\Controllers\VerifyUserController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,12 +45,11 @@ Route::middleware('auth')->group(function () {
 
     //Route::get('/banking-net', [VerifyUserController::class, 'verifyUserCertificate'])->name('banking.net');
     Route::get('/verify-user', [VerifyUserController::class, 'displayView'])->name('verify.user');
-
     Route::post('/verify-user', [VerifyUserController::class, 'verifyPassword'])->name('verify.user.submit');
-
-    Route::get('/banking-net', function () {
+    Route::get('/banking-net', function (Request $request) {
+        $request->session()->put('user_verified', false);
         return view('banking_net');
-    })->name('bankingnet');
+    })->name('bankingnet')->middleware(['user.verified']);
 });
 
 require __DIR__.'/auth.php';
