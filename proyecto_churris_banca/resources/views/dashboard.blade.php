@@ -75,3 +75,4 @@
 
 <script src="{{ asset('js/actionbuttons.js') }}"></script>
 <script src="{{ asset('js/pagination.js') }}"></script>
+<script src="{{ asset('js/messages.js') }}"></script>

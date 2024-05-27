@@ -101,11 +101,6 @@
         </div>
     </x-app-layout>
 
-    <script>
-        // Esperar 3 segundos y luego ocultar el mensaje de éxito
-        setTimeout(function() {
-            document.getElementById('success-alert').style.display = 'none';
-        }, 3000); // 3000 milisegundos = 3 segundos
-    </script>
+    <script src="{{ asset('js/messages.js') }}"></script>
 </body>
 </html>
