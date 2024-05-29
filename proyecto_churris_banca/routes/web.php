@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SeeProfileController;
 use App\Http\Controllers\VerifyUserController;
+use App\Http\Controllers\BankingNetController;
 use Illuminate\Http\Request;
 
 /*
@@ -23,7 +24,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verify.banking'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -37,19 +38,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/show-posts', [DashboardController::class, 'showPosts'])->name('show.posts');
     Route::post('/like-post', [DashboardController::class, 'likePost'])->name('like.post');
     Route::post('/dislike-post', [DashboardController::class, 'dislikePost'])->name('dislike.post');
-    //agregacion para borrar post
     Route::delete('/publications/{id}', [DashboardController::class, 'destroy'])->name('publications.destroy');
-    
-    // SeeProfile Route
+
     Route::get('/seeprofile/{id}', [SeeProfileController::class, 'show'])->name('seeprofile');
 
-    //Route::get('/banking-net', [VerifyUserController::class, 'verifyUserCertificate'])->name('banking.net');
     Route::get('/verify-user', [VerifyUserController::class, 'displayView'])->name('verify.user');
     Route::post('/verify-user', [VerifyUserController::class, 'verifyPassword'])->name('verify.user.submit');
+});
+
+Route::middleware(['auth', 'user.verified', 'verify.banking'])->group(function () {
     Route::get('/banking-net', function (Request $request) {
-        $request->session()->put('user_verified', false);
         return view('banking_net');
-    })->name('bankingnet')->middleware(['user.verified']);
+    })->name('banking.net');
+    Route::post('/banking-post', [BankingNetController::class, 'storeTransaction'])->name('banking.transaction');
 });
 
 require __DIR__.'/auth.php';

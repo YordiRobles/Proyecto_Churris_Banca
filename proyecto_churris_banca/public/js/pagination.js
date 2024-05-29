@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const postsPerPage = 6;
+    const postsPerPage = 10;
     const postContainer = document.getElementById('post-container');
     const posts = Array.from(postContainer.children);
     const totalPages = Math.ceil(posts.length / postsPerPage);

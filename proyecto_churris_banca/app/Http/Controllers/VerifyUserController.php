@@ -27,8 +27,7 @@ class VerifyUserController extends Controller
 
         if (Hash::check($request->password, Auth::user()->password)) {
             $request->session()->put('user_verified', true);
-            //return $this->verifyUserCertificate();
-            return Redirect::route('bankingnet');
+            return $this->verifyUserCertificate();
         } else {
             return redirect()->back()->with('failed', 'La contraseña no coincide');
         }
@@ -36,61 +35,47 @@ class VerifyUserController extends Controller
 
     public function verifyUserCertificate()
     {
-        // Ruta al certificado del CA (la clave pública del CA)
         $caCertPath = storage_path('CA/rootCACert.crt');
 
-        // Cargar el certificado del CA
         $caCert = file_get_contents($caCertPath);
         if ($caCert === false) {
             return redirect()->back()->with('failed', 'No se encontró el certificado del CA');
         }
 
-        // Buscar el certificado que coincida con el nombre de usuario
         $currentUser = Auth::user();
 
-        // Directorio donde se almacenan los certificados
         $certificatesDir = storage_path('users');
 
-        // Construir el nombre del archivo del certificado
         $certFilename = $currentUser->name . '.crt';
 
-        // Construir la ruta completa al archivo del certificado
         $userCertPath = $certificatesDir . DIRECTORY_SEPARATOR . $certFilename;
 
-        // Verificar si el archivo existe
         if (!file_exists($userCertPath)) {
-            Log::log('debug', $userCertPath);
             return redirect()->back()->with('failed', 'No existe la ruta del certificado');
         }
 
-        // Leer el contenido del archivo del certificado
         $userCert = file_get_contents($userCertPath);
         if ($userCert === false) {
             return redirect()->back()->with('failed', 'No se pudo leer el certificado del usuario');
         }
 
-        // Crear un recurso de certificado X.509 a partir del certificado del CA
         $caCertResource = openssl_x509_read($caCert);
         if ($caCertResource === false) {
             return redirect()->back()->with('failed', 'El certificado del CA no es válido');
         }
 
-        // Crear un recurso de certificado X.509 a partir del certificado del usuario
         $userCertResource = openssl_x509_read($userCert);
         if ($userCertResource === false) {
             return redirect()->back()->with('failed', 'El certificado del usuario no es válido');
         }
 
-        // Verificar el certificado del usuario contra el certificado del CA
         $valid = openssl_x509_verify($userCert, $caCert);
 
         if ($valid === 1) {
-            return redirect()->route('bankingnet');
+            return redirect()->route('banking.net');
         } elseif ($valid === 0) {
-            // El certificado del usuario no fue firmado por el certificado de la CA
             return redirect()->back()->with('failed', 'El certificado del usuario no fue firmado por la CA');
         } else {
-            // Hubo un error al verificar el certificado del usuario
             return redirect()->back()->with('failed', 'Error al verificar el certificado del usuario');
         }
     }

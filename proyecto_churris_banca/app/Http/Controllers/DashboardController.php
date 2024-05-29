@@ -11,7 +11,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return $this->showPosts(); // Usar showPosts para manejar la vista del dashboard
+        return $this->showPosts();
     }
 
     public function storePost(Request $request)
@@ -42,20 +42,16 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
     
-        // Obtener las publicaciones del usuario autenticado y de las personas que sigue
         $followingIds = $user->followings()->pluck('users.id');
         $posts = Publication::whereIn('user_id', $followingIds)
                             ->orWhere('user_id', $user->id)
                             ->orderByDesc('created_at')
                             ->get();
     
-        // Procesar las imágenes de las publicaciones
         $posts->each(function ($post) {
-            // Obtener detalles de la imagen adjunta a la publicación
             $imageDetails = $this->getImage($post->image_data);
             $post->image_data = $imageDetails['imageData'];
             $post->mime_type = $imageDetails['mimeType'];
-            // Obtener la imagen de perfil del usuario que hizo la publicación
             $profileImageDetails = $this->getUserImage($post->user->image_data);
             $post->user->image_data = $profileImageDetails['imageData'];
             $post->user->mime_type = $profileImageDetails['mimeType'];
@@ -92,7 +88,6 @@ class DashboardController extends Controller
                 ];
             }
         }
-        // Ruta a la imagen predeterminada
         $defaultImagePath = public_path('img/usuario-de-perfil.png');
         $defaultImageData = file_get_contents($defaultImagePath);
         $defaultImageInfo = getimagesize($defaultImagePath);
@@ -107,25 +102,21 @@ class DashboardController extends Controller
         $user = auth()->user();
         $post = Publication::findOrFail($request->post_id);
     
-        // Verifica si el usuario ya ha dado "like" a la publicación
         $existingRating = $post->likes()->where('user_id', $user->id)->first();
         $existingDislikeRating = $post->dislikes()->where('user_id', $user->id)->first();
     
         if ($existingDislikeRating) {
-            // Eliminar el dislike del usuario autenticado
             $existingDislikeRating->delete();
             $post->decrement('dislikes_count');
         }
     
         if (!$existingRating) {
-            // El usuario no ha dado "like" previamente, se agrega el "like"
             $post->likes()->create([
                 'user_id' => $user->id,
                 'action' => 1
             ]);
             $post->increment('likes_count');
         } else {
-            // El usuario ya ha dado "like" previamente, se elimina el "like"
             $existingRating->delete();
             $post->decrement('likes_count');
         }
@@ -141,12 +132,10 @@ class DashboardController extends Controller
         $user = auth()->user();
         $post = Publication::findOrFail($request->post_id);
     
-        // Verifica si el usuario ya ha dado "dislike" a la publicación
         $existingRating = $post->dislikes()->where('user_id', $user->id)->first();
         $existingLikeRating = $post->likes()->where('user_id', $user->id)->first();
     
         if ($existingLikeRating) {
-            // Eliminar el like del usuario autenticado
             $existingLikeRating->delete();
             $post->decrement('likes_count');
         }
@@ -168,12 +157,10 @@ class DashboardController extends Controller
         ]);
     }
 
-    // Se agrega metodo para borrar
     public function destroy($id)
     {
         $publication = Publication::findOrFail($id);
 
-        // Verificar si el usuario actual es el dueño de la publicación
         if (auth()->user()->id !== $publication->user_id) {
             return redirect()->route('dashboard')->with('error', 'No tienes permiso para eliminar esta publicación.');
         }

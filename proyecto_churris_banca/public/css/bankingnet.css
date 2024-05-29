@@ -1,0 +1,84 @@
+.bankingnet-title {
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+}
+
+.transaction-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.transaction-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Espacio entre los elementos */
+    max-width: 400px; /* Ajusta el ancho según tus necesidades */
+    width: 100%;
+    padding: 2rem;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.transaction-input {
+    padding: 0.5rem !important; /* Reducir el padding */
+    border: 1px solid #000000 !important;
+    border-radius: 20px !important; /* Más redondeados */
+    font-size: 0.9rem !important; /* Reducir el tamaño de fuente */
+}
+
+.transaction-file-input {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 1rem;
+}
+
+.transaction-button {
+    padding: 0.75rem;
+    border-radius: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.transaction-button:hover {
+    background-color: #45a049;
+}
+
+.transaction {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.transaction-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.transaction-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.transaction-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 20px;
+}
+
+.transaction-status-icon {
+    width: 40px;
+    height: 40px;
+}

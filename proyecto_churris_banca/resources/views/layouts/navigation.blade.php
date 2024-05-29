@@ -20,7 +20,7 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x- sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link class="nav-socialnet" :href="route('verify.user')" :active="request()->routeIs('bankingnet')">
+                    <x-nav-link class="nav-socialnet" :href="route('banking.net')" :active="request()->routeIs('banking.net')">
                         {{ __('Red Bancaria') }}
                     </x-nav-link>
                 </div>
