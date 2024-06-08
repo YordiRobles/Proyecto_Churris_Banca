@@ -35,8 +35,8 @@ class VerifyUserController extends Controller
 
     public function verifyUserCertificate()
     {
-        $caCertPath = storage_path('CA/rootCACert.crt');
-
+        //$caCertPath = storage_path('CA/rootCACert.crt'); // /etc/ssl/certs/rootCACert.crt
+        $caCertPath = env('CA_CERT_PATH');
         $caCert = file_get_contents($caCertPath);
         if ($caCert === false) {
             return redirect()->back()->with('failed', 'No se encontró el certificado del CA');
@@ -44,7 +44,7 @@ class VerifyUserController extends Controller
 
         $currentUser = Auth::user();
 
-        $certificatesDir = storage_path('users');
+        $certificatesDir = env('USER_CERTS_PATH');
 
         $certFilename = $currentUser->name . '.crt';
 

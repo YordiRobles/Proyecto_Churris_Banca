@@ -38,13 +38,17 @@ class BankingNetController extends Controller
         $privateKeyFile = $request->file('transfer-key');
         $privateKeyContent = file_get_contents($privateKeyFile->getRealPath());
 
-        $crtPath = storage_path('users/' . $currentUser->name . '.crt');
+        $userCertificatesDir = env('USER_CERTS_PATH');
 
-        if (!file_exists($crtPath)) {
+        $certFilename = $currentUser->name . '.crt';
+
+        $userCertPath = $userCertificatesDir . DIRECTORY_SEPARATOR . $certFilename;
+
+        if (!file_exists($userCertPath)) {
             return redirect()->back()->with('failed', 'No se encontró el certificado del usuario.');
         }
 
-        $crtContent = file_get_contents($crtPath);
+        $crtContent = file_get_contents($userCertPath);
 
         $publicKey = $this->getPublicKeyFromCRT($crtContent);
         if ($publicKey === false) {
@@ -124,12 +128,13 @@ class BankingNetController extends Controller
         return $result === 1;
     }
 
-    /*public function getBalance(Request $request)
+    public function getBalance(Request $request)
     {
         $username = Auth::user()->name;
 
         // Hacer la solicitud HTTP al CGI
-        $response = Http::get('http://172.24.131.196/cgi-bin/getBalance', [
+        $caCertPath = env('CA_CERT_PATH');
+        $response = Http::withOptions(['verify' => $caCertPath])->get('https://cgiequipo04/cgi-bin/getBalance', [
             'name' => $username
         ]);
 
@@ -143,16 +148,16 @@ class BankingNetController extends Controller
             $balance = $crawler->filter('table tr td')->eq(1)->text();
 
             // Pasar los datos a la vista
-            return view('banking.balance', [
+            return view('banking_net', [
                 'username' => $name,
                 'balance' => $balance
             ]);
         }
 
         return redirect()->back()->with('failed', 'No se pudo obtener el balance.');
-    }*/
+    }
 
-    public function showBankingNet()
+    /*public function showBankingNet()
     {
         $fixedUsername = 'Jason Murillo Madrigal';
 
@@ -178,5 +183,5 @@ class BankingNetController extends Controller
         }
 
         return redirect()->back()->with('failed', 'No se pudo obtener el balance.');
-    }
+    }*/
 }
