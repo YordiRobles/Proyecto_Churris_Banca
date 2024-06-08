@@ -8,6 +8,7 @@ use App\Http\Controllers\SeeProfileController;
 use App\Http\Controllers\VerifyUserController;
 use App\Http\Controllers\BankingNetController;
 use Illuminate\Http\Request;
+use App\Http\Controllers\TestCGIController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,11 +47,28 @@ Route::middleware(['auth', 'verify.banking'])->group(function () {
     Route::post('/verify-user', [VerifyUserController::class, 'verifyPassword'])->name('verify.user.submit');
 });
 
-Route::middleware(['auth', 'user.verified', 'verify.banking'])->group(function () {
+/*Route::middleware(['auth', 'user.verified', 'verify.banking'])->group(function () {
     Route::get('/banking-net', function (Request $request) {
         return view('banking_net');
     })->name('banking.net');
     Route::post('/banking-post', [BankingNetController::class, 'storeTransaction'])->name('banking.transaction');
-});
+    
+    Route::get('/banking/balance', [BankingNetController::class, 'getBalance'])->name('banking.balance');
+});*/
+
+//borrar esto
+Route::get('/banking-net', function (Request $request) {
+    return view('banking_net');
+})->name('banking.net');
+Route::post('/banking-post', [BankingNetController::class, 'storeTransaction'])->name('banking.transaction');
+
+Route::get('/banking/balance', [BankingNetController::class, 'getBalance'])->name('banking.balance');
+
+
+Route::get('/test-cgi', [TestCGIController::class, 'show'])->name('test.cgi');
+Route::post('/test-cgi/transfer', [TestCGIController::class, 'transfer'])->name('test.cgi.transfer');
+
+Route::get('/banking-net', [BankingNetController::class, 'showBankingNet'])->name('banking.net');
+Route::post('/banking-post', [BankingNetController::class, 'storeTransaction'])->name('banking.transaction');
 
 require __DIR__.'/auth.php';

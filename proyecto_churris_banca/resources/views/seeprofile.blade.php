@@ -18,13 +18,14 @@
         .profile-header h1 {
             font-size: 2em; /* Tamaño del nombre del usuario */
         }
-        .edit-profile-button {
+        .edit-profile-button, .view-balance-button, .test-cgi-button {
             background-color: black;
             color: white;
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-right: 10px; /* Espaciado entre botones */
         }
     </style>
 </head>
@@ -58,6 +59,9 @@
                                 <p>Seguidores: {{ $followersCount }}</p>
                                 <a href="{{ route('profile.edit', $user->id) }}">
                                     <button class="edit-profile-button">Editar perfil</button>
+                                </a>
+                                <a href="{{ route('test.cgi') }}">
+                                    <button class="test-cgi-button">Pruebas CGI</button>
                                 </a>
                             </div>
                         </div>

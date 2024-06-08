@@ -6,6 +6,10 @@
             <h2 class="font-title">
                 {{ __('Red Bancaria') }}
             </h2>
+            <div class="user-balance">
+                <span>{{ $username }}</span>
+                <span>Balance: ${{ number_format($balance, 2) }}</span>
+            </div>
         </div>
     </x-slot>
     <div class="py-12">
@@ -76,3 +80,17 @@
 </x-app-layout>
 
 <script src="{{ asset('js/messages.js') }}"></script>
+
+<style>
+    .user-balance {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        font-size: 16px;
+        color: #000;
+        margin-left: auto;
+    }
+    .user-balance span {
+        margin: 2px 0;
+    }
+</style>

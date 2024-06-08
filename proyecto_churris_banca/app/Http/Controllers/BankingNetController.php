@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
 use Illuminate\Support\Facades\Openssl;
+use Illuminate\Support\Facades\Http;
+use Symfony\Component\DomCrawler\Crawler;
 
 class BankingNetController extends Controller
 {
@@ -120,5 +122,61 @@ class BankingNetController extends Controller
         $result = openssl_verify($data, $signature, $publicKeyResource, OPENSSL_ALGO_SHA256);
         openssl_free_key($publicKeyResource);
         return $result === 1;
+    }
+
+    /*public function getBalance(Request $request)
+    {
+        $username = Auth::user()->name;
+
+        // Hacer la solicitud HTTP al CGI
+        $response = Http::get('http://172.24.131.196/cgi-bin/getBalance', [
+            'name' => $username
+        ]);
+
+        // Verificar que la solicitud fue exitosa
+        if ($response->successful()) {
+            // Parsear el HTML de la respuesta
+            $html = $response->body();
+            $crawler = new Crawler($html);
+            
+            $name = $crawler->filter('table tr td')->eq(0)->text();
+            $balance = $crawler->filter('table tr td')->eq(1)->text();
+
+            // Pasar los datos a la vista
+            return view('banking.balance', [
+                'username' => $name,
+                'balance' => $balance
+            ]);
+        }
+
+        return redirect()->back()->with('failed', 'No se pudo obtener el balance.');
+    }*/
+
+    public function showBankingNet()
+    {
+        $fixedUsername = 'Jason Murillo Madrigal';
+
+        // Hacer la solicitud HTTP al CGI
+        $response = Http::get('http://172.24.131.196/cgi-bin/getBalance', [
+            'name' => $fixedUsername
+        ]);
+
+        // Verificar que la solicitud fue exitosa
+        if ($response->successful()) {
+            // Parsear el HTML de la respuesta
+            $html = $response->body();
+            $crawler = new Crawler($html);
+            
+            $name = $crawler->filter('table tr td')->eq(0)->text();
+            $balance = $crawler->filter('table tr td')->eq(1)->text();
+
+            // Pasar los datos a la vista
+            return view('banking_net', [
+                'username' => $name,
+                'balance' => $balance
+            ]);
+        }
+
+        return redirect()->back()->with('failed', 'No se pudo obtener el balance.');
     }
 }
