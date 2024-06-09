@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const postsPerPage = 6;
+    const postsPerPage = 10;
     const postContainer = document.getElementById('post-container');
     const posts = Array.from(postContainer.children);
     const totalPages = Math.ceil(posts.length / postsPerPage);
@@ -40,12 +40,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     showPage(currentPage);
-    
-    // Verificar si el elemento 'success-alert' existe antes de intentar acceder a él
-    const successAlert = document.getElementById('success-alert');
-    if (successAlert) {
-        setTimeout(function() {
-            successAlert.style.display = 'none';
-        }, 3000);
-    }
 });
