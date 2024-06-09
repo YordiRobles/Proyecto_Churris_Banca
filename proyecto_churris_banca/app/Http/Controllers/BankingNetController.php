@@ -75,7 +75,8 @@ class BankingNetController extends Controller
 
         $isValid = $this->verifySignature($transactionData, $signature, $publicKey);
         if ($isValid) {
-            return redirect()->route('banking.net')->with('success', 'Se ha realizado la transacción.');
+            // Realizar la transferencia utilizando la función transfer adaptada
+            return $this->transfer($request, $currentUser->name, $recipientName, $request->input('amount'));
         } else {
             return redirect()->route('banking.net')->with('failed', 'La firma de la transacción no es válida.');
         }
@@ -143,7 +144,6 @@ class BankingNetController extends Controller
             // Parsear el HTML de la respuesta
             $html = $response->body();
             $crawler = new Crawler($html);
-            
             $name = $crawler->filter('table tr td')->eq(0)->text();
             $balance = $crawler->filter('table tr td')->eq(1)->text();
 
@@ -155,6 +155,34 @@ class BankingNetController extends Controller
         }
 
         return redirect()->back()->with('failed', 'No se pudo obtener el balance.');
+    }
+
+    public function transfer(Request $request, $from, $to, $amount)
+    {
+        // Hacer la solicitud HTTP al CGI para la transferencia de fondos
+        $caCertPath = env('CA_CERT_PATH');
+        $response = Http::withOptions(['verify' => $caCertPath])->get('https://cgiequipo04/cgi-bin/balanceTransferLogs', [
+            'from' => $from,
+            'to' => $to,
+            'amount' => $amount,
+        ]);
+
+        /*$response = Http::get('https://cgiequipo04/cgi-bin/getBalance', [
+            'from' => $from,
+            'to' => $to,
+            'amount' => $amount,
+        ]);*/
+
+        // Verificar que la solicitud fue exitosa
+        if ($response->successful()) {
+            // Parsear el HTML de la respuesta
+            $html = $response->body();
+
+            // Almacenar el resultado en la sesión y redirigir de vuelta a la vista con el resultado
+            return redirect()->route('banking.net')->with('success', 'Se ha realizado la transacción.');
+        }
+
+        return redirect()->back()->with('failed', 'No se pudo completar la transacción.');
     }
 
     /*public function showBankingNet()
