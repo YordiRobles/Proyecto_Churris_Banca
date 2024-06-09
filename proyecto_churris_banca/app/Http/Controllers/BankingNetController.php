@@ -135,7 +135,7 @@ class BankingNetController extends Controller
 
         // Hacer la solicitud HTTP al CGI
         $caCertPath = env('CA_CERT_PATH');
-        $response = Http::withOptions(['verify' => $caCertPath])->get('https://cgiequipo04/cgi-bin/getBalance', [
+        $response = Http::withOptions(['verify' => $caCertPath])->get('https://cgiequipo04/cgi-bin/getBalanceEnv', [
             'name' => $username
         ]);
 
