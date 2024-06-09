@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\PublicationLog;
 use App\Models\Publication;
 use App\Models\Rating;
 use App\Models\User;
@@ -34,6 +35,17 @@ class DashboardController extends Controller
         }
     
         $publication->save();
+
+        PublicationLog::create([
+            'publication_id' => $publication->id,
+            'date' => now()->toDateString(),
+            'time' => now()->toTimeString(),
+            'action' => 'Add',
+            'text' => $publication->text,
+            'user_id' => $user->id,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
     
         return redirect()->back()->with('success', 'Se ha realizado la publicación');
     }
@@ -160,13 +172,28 @@ class DashboardController extends Controller
     public function destroy($id)
     {
         $publication = Publication::findOrFail($id);
-
+    
         if (auth()->user()->id !== $publication->user_id) {
             return redirect()->route('dashboard')->with('error', 'No tienes permiso para eliminar esta publicación.');
         }
-
+    
+        $publicationText = $publication->text;
+        $publicationId = $publication->id;
+        $userId = auth()->user()->id;
+    
+        PublicationLog::create([
+            'publication_id' => $publicationId,
+            'date' => now()->toDateString(),
+            'time' => now()->toTimeString(),
+            'action' => 'Delete',
+            'text' => $publicationText,
+            'user_id' => $userId,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+    
         $publication->delete();
-
+    
         return redirect()->route('dashboard')->with('success', 'Publicación eliminada correctamente.');
     }
 }

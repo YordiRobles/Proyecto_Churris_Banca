@@ -41,7 +41,7 @@
                         @foreach($posts as $post)
                             <div class="post">
                                 <div class="post-header">
-                                    <img src="data:{{ $post->user->mime_type }};base64,{{ $post->user->image_data }}" alt="Imagen adjunta">
+                                    <img src="data:{{ $post->user->mime_type }};base64,{{ $post->user->image_data }}" alt="Imagen Perfil">
                                     <div class="post-info">
                                         <h3>{{ $post->user->name }}</h3>
                                         <p>{{ $post->created_at }}</p>
