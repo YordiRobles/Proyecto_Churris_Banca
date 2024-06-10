@@ -9,6 +9,7 @@
             </h2>
             <div class="search-container">
                 <form action="{{ route('search.users') }}" method="GET">
+                    @csrf
                     <div class="search-box">
                         <input type="text" name="query" placeholder="Buscar usuario por nombre" class="search-input">
                         <button type="submit" class="search-button"></button>
