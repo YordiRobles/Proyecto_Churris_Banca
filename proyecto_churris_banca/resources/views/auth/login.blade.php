@@ -26,7 +26,6 @@
             <div class="card">
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
-
                     <!-- Email Address -->
                 <div>
                     <label for="email">Correo del usuario:</label>
