@@ -35,7 +35,6 @@ class VerifyUserController extends Controller
 
     public function verifyUserCertificate()
     {
-        //$caCertPath = storage_path('CA/rootCACert.crt'); // /etc/ssl/certs/rootCACert.crt
         $caCertPath = env('CA_CERT_PATH');
         $caCert = file_get_contents($caCertPath);
         if ($caCert === false) {
