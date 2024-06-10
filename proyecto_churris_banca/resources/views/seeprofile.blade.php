@@ -52,7 +52,8 @@
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <!-- Perfil del Usuario -->
                         <div class="profile-header">
-                            <img src="data:image/jpeg;base64,{{ base64_encode($user->image_data) }}" alt="Imagen de {{ $user->name }}">
+                            <img src="data:{{ $user->mime_type }};base64,{{ $user->image_data }}" alt="Imagen Perfil">
+                            <!-- <img src="data:image/jpeg;base64,{{ base64_encode($user->image_data) }}" alt="Imagen de {{ $user->name }}"> -->
                             <div>
                                 <h1>{{ $user->name }}</h1>
                                 <p>Email: {{ $user->email }}</p>
@@ -68,7 +69,8 @@
                             @foreach($user->publications->sortByDesc('created_at') as $publication)
                                 <div class="post">
                                     <div class="post-header">
-                                    <img src="data:image/jpeg;base64,{{ base64_encode($user->image_data) }}" alt="Imagen de {{ $user->name }}">
+                                    <img src="data:{{ $user->mime_type }};base64,{{ $user->image_data }}" alt="Imagen Perfil">
+                                    <!-- <img src="data:image/jpeg;base64,{{ base64_encode($user->image_data) }}" alt="Imagen de {{ $user->name }}"> -->
                                         <div class="post-info">
                                             <h3>{{ $user->name }}</h3>
                                             <p>{{ $publication->created_at }}</p>
