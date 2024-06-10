@@ -35,6 +35,11 @@
                             {{ session('success') }}
                         </div>
                     @endif
+                    @if(session('failed'))
+                        <div id="failed-alert" class="alert alert-danger">
+                            {{ session('failed') }}
+                        </div>
+                    @endif
                     <hr class="divisor-line">
                     <!-- Área donde se muestran las publicaciones -->
                     <div id="post-container">

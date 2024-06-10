@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\PublicationLog;
 use App\Models\Publication;
@@ -17,11 +17,15 @@ class DashboardController extends Controller
 
     public function storePost(Request $request)
     {
-        $request->validate([
-            'post-content' => 'required|max:255',
-            'post-image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+        $validator = Validator::make($request->all(), [
+            'post-content' => ['required', 'max:255', 'regex:/^[^\$^´\'\'""]+$/'],
+            'post-image' => 'image|mimes:jpeg,png,jpg|max:2048'
         ]);
-    
+
+        if ($validator->fails() ) {
+            return redirect()->back()->with('failed', 'Ha ocurrido un problema con la publicación. Por favor, verifica los campos.');
+        }
+        
         $user = auth()->user();
     
         $publication = new Publication();
@@ -174,7 +178,7 @@ class DashboardController extends Controller
         $publication = Publication::findOrFail($id);
     
         if (auth()->user()->id !== $publication->user_id) {
-            return redirect()->route('dashboard')->with('error', 'No tienes permiso para eliminar esta publicación.');
+            return redirect()->route('dashboard')->with('failed', 'No tienes permiso para eliminar esta publicación.');
         }
     
         $publicationText = $publication->text;
