@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Openssl;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
+use Illuminate\Support\Facades\Validator;
 
 class BankingNetController extends Controller
 {
@@ -23,11 +24,16 @@ class BankingNetController extends Controller
     public function verifyTransaction(Request $request)
     {
         $currentUser = Auth::user();
-        $request->validate([
-            'username' => 'required|string',
+        $validator = Validator::make($request->all(), [
+            'username' => ['required', 'string', 'max:40', 'regex:/^[a-zA-Z.]+$/'],
             'amount' => 'required|integer|min:1',
             'transfer-key' => 'required|file',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->with('failed', 'El nombre de usuario al que se le va a realizar la transacción no es válido.');
+        }
+
         $recipientName = $request->input('username');
         $recipient = User::where('name', $recipientName)->first();
 
