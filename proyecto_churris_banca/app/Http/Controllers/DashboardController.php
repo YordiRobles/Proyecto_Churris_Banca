@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use App\Models\PublicationLog;
 use App\Models\Publication;
 use App\Models\Rating;
 use App\Models\User;
@@ -16,11 +17,15 @@ class DashboardController extends Controller
 
     public function storePost(Request $request)
     {
-        $request->validate([
-            'post-content' => 'required|max:255',
-            'post-image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+        $validator = Validator::make($request->all(), [
+            'post-content' => ['required', 'max:255', 'regex:/^[^\$^´\'\'""]+$/'],
+            'post-image' => 'image|mimes:jpeg,png,jpg|max:2048'
         ]);
-    
+
+        if ($validator->fails() ) {
+            return redirect()->back()->with('failed', 'Ha ocurrido un problema con la publicación. Por favor, verifica los campos.');
+        }
+        
         $user = auth()->user();
     
         $publication = new Publication();
@@ -34,6 +39,17 @@ class DashboardController extends Controller
         }
     
         $publication->save();
+
+        PublicationLog::create([
+            'publication_id' => $publication->id,
+            'date' => now()->toDateString(),
+            'time' => now()->toTimeString(),
+            'action' => 'Add',
+            'text' => $publication->text,
+            'user_id' => $user->id,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
     
         return redirect()->back()->with('success', 'Se ha realizado la publicación');
     }
@@ -160,13 +176,28 @@ class DashboardController extends Controller
     public function destroy($id)
     {
         $publication = Publication::findOrFail($id);
-
+    
         if (auth()->user()->id !== $publication->user_id) {
-            return redirect()->route('dashboard')->with('error', 'No tienes permiso para eliminar esta publicación.');
+            return redirect()->route('dashboard')->with('failed', 'No tienes permiso para eliminar esta publicación.');
         }
-
+    
+        $publicationText = $publication->text;
+        $publicationId = $publication->id;
+        $userId = auth()->user()->id;
+    
+        PublicationLog::create([
+            'publication_id' => $publicationId,
+            'date' => now()->toDateString(),
+            'time' => now()->toTimeString(),
+            'action' => 'Delete',
+            'text' => $publicationText,
+            'user_id' => $userId,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+    
         $publication->delete();
-
+    
         return redirect()->route('dashboard')->with('success', 'Publicación eliminada correctamente.');
     }
 }
