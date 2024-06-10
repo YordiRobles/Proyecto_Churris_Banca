@@ -127,9 +127,10 @@ class BankingNetController extends Controller
 
     public function getBalance(Request $request)
     {
+        Log::info('getBalance method called');
+
         $username = Auth::user()->name;
 
-        
         $caCertPath = env('CA_CERT_PATH');
         $response = Http::withOptions(['verify' => $caCertPath])->get('https://cgiequipo04/cgi-bin/getBalanceEnv', [
             'name' => $username
@@ -141,9 +142,13 @@ class BankingNetController extends Controller
             $name = $crawler->filter('table tr td')->eq(0)->text();
             $balance = $crawler->filter('table tr td')->eq(1)->text();
 
+            // Llamar a getTransactionLogs y pasar los datos a la vista
+            $transactions = $this->getTransactionLogs($username);
+
             return view('banking_net', [
                 'username' => $name,
-                'balance' => $balance
+                'balance' => $balance,
+                'transactions' => $transactions
             ]);
         }
 
@@ -164,5 +169,74 @@ class BankingNetController extends Controller
             return redirect()->route('banking.net')->with('success', 'Se ha realizado la transacción.');
         }
         return redirect()->back()->with('failed', 'No se pudo completar la transacción.');
+    }
+
+        private function getTransactionLogs($username)
+    {
+
+        Log::info('getTransactionLogs method called with username: ' . $username);
+
+        $response = Http::get('http://172.24.131.196/cgi-bin/getLogsEnv', [
+            'user' => $username
+        ]);
+
+        if ($response->successful()) {
+            $html = $response->body();
+
+            Log::info('HTML response from getLogsEnv:', ['html' => $html]);
+
+            return $this->parseTransactions($html);
+        }
+
+        return ['sent' => [], 'received' => []];
+    }
+
+    private function parseTransactions($html)
+    {
+        $crawler = new Crawler($html);
+        $transactions = [
+            'sent' => [],
+            'received' => []
+        ];
+
+        // Parsear las transacciones enviadas
+        $sentRows = $crawler->filter('h2:contains("Transacciones enviadas") + table tr');
+        foreach ($sentRows as $row) {
+            $cells = (new Crawler($row))->filter('td');
+            if ($cells->count() == 3) {
+                $transactions['sent'][] = [
+                    'date' => $cells->eq(0)->text(),
+                    'amount' => $cells->eq(1)->text(),
+                    'recipient' => $cells->eq(2)->text(),
+                ];
+            }
+        }
+
+        // Parsear las transacciones recibidas
+        $receivedRows = $crawler->filter('h2:contains("Transacciones recibidas") + table tr');
+        foreach ($receivedRows as $row) {
+            $cells = (new Crawler($row))->filter('td');
+            if ($cells->count() == 3) {
+                $transactions['received'][] = [
+                    'date' => $cells->eq(0)->text(),
+                    'amount' => $cells->eq(1)->text(),
+                    'sender' => $cells->eq(2)->text(),
+                ];
+            }
+        }
+
+        // Ordenar las transacciones por fecha más reciente primero
+        usort($transactions['sent'], function ($a, $b) {
+            return strtotime($b['date']) - strtotime($a['date']);
+        });
+
+        usort($transactions['received'], function ($a, $b) {
+            return strtotime($b['date']) - strtotime($a['date']);
+        });
+
+        // Depurar los datos
+        Log::info('Parsed transactions:', $transactions);
+
+        return $transactions;
     }
 }

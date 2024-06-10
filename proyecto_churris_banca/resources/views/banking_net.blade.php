@@ -40,33 +40,42 @@
                     <div class="transfer-history">
                         <h1 class="bankingnet-title">Historial de Transferencias</h1>
                         <div class="transfer-list">
-                            <!-- Aquí se mostrarán las transferencias -->
-                             <!-- Ejemplo de transferencia de dinero enviado -->
-                            <div class="transaction">
-                                <div class="transaction-header">
-                                    <div class="transaction-info">
-                                        <h3>Enviado a: Juan Pérez</h3>
-                                        <p>Fecha: 2024-05-28 14:35</p>
-                                        <p>Monto enviado: $500.00</p>
+                            <!-- Mostrar las transacciones reales obtenidas del CGI -->
+                            @if(!empty($transactions['sent']))
+                                <h2>Transacciones enviadas:</h2>
+                                @foreach($transactions['sent'] as $transaction)
+                                    <div class="transaction">
+                                        <div class="transaction-header">
+                                            <div class="transaction-info">
+                                                <h3>Enviado a: {{ $transaction['recipient'] }}</h3>
+                                                <p>Fecha: {{ $transaction['date'] }}</p>
+                                                <p>Monto enviado: ${{ number_format($transaction['amount'], 2) }}</p>
+                                            </div>
+                                            <div class="transaction-icon">
+                                                <img src="img/churricoin_red.png" alt="Icono de enviado" class="transaction-status-icon">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="transaction-icon">
-                                        <img src="img/churricoin_red.png" alt="Icono de enviado" class="transaction-status-icon">
+                                @endforeach
+                            @endif
+
+                            @if(!empty($transactions['received']))
+                                <h2>Transacciones recibidas:</h2>
+                                @foreach($transactions['received'] as $transaction)
+                                    <div class="transaction">
+                                        <div class="transaction-header">
+                                            <div class="transaction-info">
+                                                <h3>Recibido de: {{ $transaction['sender'] }}</h3>
+                                                <p>Fecha: {{ $transaction['date'] }}</p>
+                                                <p>Monto recibido: ${{ number_format($transaction['amount'], 2) }}</p>
+                                            </div>
+                                            <div class="transaction-icon">
+                                                <img src="img/churricoin_green.png" alt="Icono de recibido" class="transaction-status-icon">
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <!-- Ejemplo de transferencia de dinero recibido -->
-                            <div class="transaction">
-                                <div class="transaction-header">
-                                    <div class="transaction-info">
-                                        <h3>Recibido de: María López</h3>
-                                        <p>Fecha: 2024-05-27 09:15</p>
-                                        <p>Monto recibido: $300.00</p>
-                                    </div>
-                                    <div class="transaction-icon">
-                                        <img src="img/churricoin_green.png" alt="Icono de recibido" class="transaction-status-icon">
-                                    </div>
-                                </div>
-                            </div>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>
