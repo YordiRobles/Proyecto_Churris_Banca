@@ -62,21 +62,17 @@ class BankingNetController extends Controller
         if (!$isKeyValid) {
             return redirect()->back()->with('failed', 'La clave privada no corresponde al certificado.');
         }
-        
-        $transactionData = json_encode([
-            'username' => $recipientName,
-            'amount' => $request->input('amount'),
-        ]);
+                  
+        $dataTransaction = urlencode($currentUser->name) . urlencode($recipientName) . urlencode($request->input('amount'));
+        $signature = $this->signData($dataTransaction, $privateKeyContent);
 
-        $signature = $this->signData($transactionData, $privateKeyContent);
         if ($signature === false) {
             return redirect()->back()->with('failed', 'No se pudo firmar los datos.');
         }
 
-        $isValid = $this->verifySignature($transactionData, $signature, $publicKey);
+        $isValid = $this->verifySignature($dataTransaction, $signature, $publicKey);
         if ($isValid) {
-            // Realizar la transferencia utilizando la función transfer adaptada
-            return $this->transfer($request, $currentUser->name, $recipientName, $request->input('amount'));
+            return $this->transfer($request, $currentUser->name, $recipientName, $request->input('amount'), $signature);
         } else {
             return redirect()->route('banking.net')->with('failed', 'La firma de la transacción no es válida.');
         }
@@ -133,21 +129,18 @@ class BankingNetController extends Controller
     {
         $username = Auth::user()->name;
 
-        // Hacer la solicitud HTTP al CGI
+        
         $caCertPath = env('CA_CERT_PATH');
         $response = Http::withOptions(['verify' => $caCertPath])->get('https://cgiequipo04/cgi-bin/getBalanceEnv', [
             'name' => $username
         ]);
 
-        // Verificar que la solicitud fue exitosa
         if ($response->successful()) {
-            // Parsear el HTML de la respuesta
             $html = $response->body();
             $crawler = new Crawler($html);
             $name = $crawler->filter('table tr td')->eq(0)->text();
             $balance = $crawler->filter('table tr td')->eq(1)->text();
 
-            // Pasar los datos a la vista
             return view('banking_net', [
                 'username' => $name,
                 'balance' => $balance
@@ -157,59 +150,19 @@ class BankingNetController extends Controller
         return redirect()->back()->with('failed', 'No se pudo obtener el balance.');
     }
 
-    public function transfer(Request $request, $from, $to, $amount)
+    public function transfer(Request $request, $from, $to, $amount, $signature)
     {
-        // Hacer la solicitud HTTP al CGI para la transferencia de fondos
         $caCertPath = env('CA_CERT_PATH');
-        $response = Http::withOptions(['verify' => $caCertPath])->get('https://cgiequipo04/cgi-bin/balanceTransferLogs', [
+        $response = Http::withOptions(['verify' => $caCertPath])->get('https://cgiequipo04/cgi-bin/balanceTransferLogsCif', [
             'from' => $from,
             'to' => $to,
             'amount' => $amount,
+            'signature' => $signature
         ]);
-
-        /*$response = Http::get('https://cgiequipo04/cgi-bin/getBalance', [
-            'from' => $from,
-            'to' => $to,
-            'amount' => $amount,
-        ]);*/
-
-        // Verificar que la solicitud fue exitosa
         if ($response->successful()) {
-            // Parsear el HTML de la respuesta
             $html = $response->body();
-
-            // Almacenar el resultado en la sesión y redirigir de vuelta a la vista con el resultado
             return redirect()->route('banking.net')->with('success', 'Se ha realizado la transacción.');
         }
-
         return redirect()->back()->with('failed', 'No se pudo completar la transacción.');
     }
-
-    /*public function showBankingNet()
-    {
-        $fixedUsername = 'Jason Murillo Madrigal';
-
-        // Hacer la solicitud HTTP al CGI
-        $response = Http::get('http://172.24.131.196/cgi-bin/getBalance', [
-            'name' => $fixedUsername
-        ]);
-
-        // Verificar que la solicitud fue exitosa
-        if ($response->successful()) {
-            // Parsear el HTML de la respuesta
-            $html = $response->body();
-            $crawler = new Crawler($html);
-            
-            $name = $crawler->filter('table tr td')->eq(0)->text();
-            $balance = $crawler->filter('table tr td')->eq(1)->text();
-
-            // Pasar los datos a la vista
-            return view('banking_net', [
-                'username' => $name,
-                'balance' => $balance
-            ]);
-        }
-
-        return redirect()->back()->with('failed', 'No se pudo obtener el balance.');
-    }*/
 }
