@@ -100,3 +100,15 @@
 .balance-button:hover {
     background-color: #45a049;
 }
+
+.user-balance {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 16px;
+    color: #000;
+    margin-left: auto;
+}
+.user-balance span {
+    margin: 2px 0;
+}

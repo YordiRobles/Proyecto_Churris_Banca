@@ -39,34 +39,48 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="transfer-history">
                         <h1 class="bankingnet-title">Historial de Transferencias</h1>
-                        <div class="transfer-list">
-                            <!-- Aquí se mostrarán las transferencias -->
-                             <!-- Ejemplo de transferencia de dinero enviado -->
-                            <div class="transaction">
-                                <div class="transaction-header">
-                                    <div class="transaction-info">
-                                        <h3>Enviado a: Juan Pérez</h3>
-                                        <p>Fecha: 2024-05-28 14:35</p>
-                                        <p>Monto enviado: $500.00</p>
-                                    </div>
-                                    <div class="transaction-icon">
-                                        <img src="img/churricoin_red.png" alt="Icono de enviado" class="transaction-status-icon">
+                        <div id="transaction-container" class="transfer-list">
+                            <!-- Mostrar las transacciones reales obtenidas del CGI -->
+                            @php
+                                $allTransactions = array_merge(
+                                    array_map(function($transaction) {
+                                        $transaction['type'] = 'sent';
+                                        return $transaction;
+                                    }, $transactions['sent'] ?? []),
+                                    array_map(function($transaction) {
+                                        $transaction['type'] = 'received';
+                                        return $transaction;
+                                    }, $transactions['received'] ?? [])
+                                );
+
+                                usort($allTransactions, function($a, $b) {
+                                    return strtotime($b['date']) - strtotime($a['date']);
+                                });
+                            @endphp
+
+                            @foreach($allTransactions as $transaction)
+                                <div class="transaction">
+                                    <div class="transaction-header">
+                                        <div class="transaction-info">
+                                            @if($transaction['type'] == 'sent')
+                                                <h3>Enviado a: {{ $transaction['recipient'] }}</h3>
+                                                <p>Monto enviado: ${{ number_format($transaction['amount'], 2) }}</p>
+                                            @else
+                                                <h3>Recibido de: {{ $transaction['sender'] }}</h3>
+                                                <p>Monto recibido: ${{ number_format($transaction['amount'], 2) }}</p>
+                                            @endif
+                                            <p>Fecha: {{ $transaction['date'] }}</p>
+                                        </div>
+                                        <div class="transaction-icon">
+                                            @if($transaction['type'] == 'sent')
+                                                <img src="img/churricoin_red.png" alt="Icono de enviado" class="transaction-status-icon">
+                                            @else
+                                                <img src="img/churricoin_green.png" alt="Icono de recibido" class="transaction-status-icon">
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- Ejemplo de transferencia de dinero recibido -->
-                            <div class="transaction">
-                                <div class="transaction-header">
-                                    <div class="transaction-info">
-                                        <h3>Recibido de: María López</h3>
-                                        <p>Fecha: 2024-05-27 09:15</p>
-                                        <p>Monto recibido: $300.00</p>
-                                    </div>
-                                    <div class="transaction-icon">
-                                        <img src="img/churricoin_green.png" alt="Icono de recibido" class="transaction-status-icon">
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -80,17 +94,4 @@
 </x-app-layout>
 
 <script src="{{ asset('js/messages.js') }}"></script>
-
-<style>
-    .user-balance {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        font-size: 16px;
-        color: #000;
-        margin-left: auto;
-    }
-    .user-balance span {
-        margin: 2px 0;
-    }
-</style>
+<script src="{{ asset('js/banking_pagination.js') }}"></script>

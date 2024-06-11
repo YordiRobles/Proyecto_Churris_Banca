@@ -7,10 +7,16 @@
             </h2>
             <div class="search-container">
                 <form action="{{ route('search.users') }}" method="GET">
+                    @csrf
                     <div class="search-box">
-                        <input type="text" name="query" placeholder="Buscar usuario por nombre" class="search-input">
+                        <input type="text" name="query" placeholder="Buscar usuario por nombre" class="search-input" value="{{ old('query') }}">
                         <button type="submit" class="search-button"></button>
                     </div>
+                    @if($errors->has('query'))
+                        <div class="alert alert-danger">
+                            {{ $errors->first('query') }}
+                        </div>
+                    @endif
                 </form>
             </div>
         </div>
@@ -19,7 +25,6 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <!-- Formulario para hacer una nueva publicación -->
                     <form class="post-form" action="{{ route('store.post') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="post-inputs">
@@ -41,7 +46,6 @@
                         </div>
                     @endif
                     <hr class="divisor-line">
-                    <!-- Área donde se muestran las publicaciones -->
                     <div id="post-container">
                         @foreach($posts as $post)
                             <div class="post">

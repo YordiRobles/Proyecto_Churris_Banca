@@ -14,14 +14,19 @@ class SeeProfileController extends Controller
 {
     public function show($id)
     {
+        $currentUser = Auth::user();
         $user = User::with('publications')->findOrFail($id);
-        $followersCount = $user->followers()->count();
-        $profileImageDetails = $this->getUserImage($user->image_data);
-        $user->image_data = $profileImageDetails['imageData'];
-        $user->mime_type = $profileImageDetails['mimeType'];
+        if ($currentUser->id === $user->id) {
+            $followersCount = $user->followers()->count();
+            $profileImageDetails = $this->getUserImage($user->image_data);
+            $user->image_data = $profileImageDetails['imageData'];
+            $user->mime_type = $profileImageDetails['mimeType'];
+            return view('seeprofile', compact('user', 'followersCount'));
+        }
+        if ($currentUser->id != $user->id) {
+            return redirect()->back()->with('failed', 'No se puede visualizar la información de ese usuario');
+        }
 
-
-        return view('seeprofile', compact('user', 'followersCount'));
     }
     
     private function getUserImage($image_data)
