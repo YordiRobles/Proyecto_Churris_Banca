@@ -148,7 +148,6 @@ class BankingNetController extends Controller
             $name = $crawler->filter('table tr td')->eq(0)->text();
             $balance = $crawler->filter('table tr td')->eq(1)->text();
 
-            // Llamar a getTransactionLogs y pasar los datos a la vista
             $transactions = $this->getTransactionLogs($username);
 
             return view('banking_net', [
@@ -177,12 +176,10 @@ class BankingNetController extends Controller
         return redirect()->back()->with('failed', 'No se pudo completar la transacción.');
     }
 
-        private function getTransactionLogs($username)
+    private function getTransactionLogs($username)
     {
-
-        Log::info('getTransactionLogs method called with username: ' . $username);
-
-        $response = Http::get('http://172.24.131.196/cgi-bin/getLogsEnv', [
+        $caCertPath = env('CA_CERT_PATH');
+        $response = Http::withOptions(['verify' => $caCertPath])->get('https://cgiequipo04/cgi-bin/getLogsEnv', [
             'user' => $username
         ]);
 
@@ -205,7 +202,6 @@ class BankingNetController extends Controller
             'received' => []
         ];
 
-        // Parsear las transacciones enviadas
         $sentRows = $crawler->filter('h2:contains("Transacciones enviadas") + table tr');
         foreach ($sentRows as $row) {
             $cells = (new Crawler($row))->filter('td');
@@ -218,7 +214,6 @@ class BankingNetController extends Controller
             }
         }
 
-        // Parsear las transacciones recibidas
         $receivedRows = $crawler->filter('h2:contains("Transacciones recibidas") + table tr');
         foreach ($receivedRows as $row) {
             $cells = (new Crawler($row))->filter('td');
@@ -231,7 +226,6 @@ class BankingNetController extends Controller
             }
         }
 
-        // Ordenar las transacciones por fecha más reciente primero
         usort($transactions['sent'], function ($a, $b) {
             return strtotime($b['date']) - strtotime($a['date']);
         });
