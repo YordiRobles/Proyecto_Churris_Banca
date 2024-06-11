@@ -162,18 +162,29 @@ class BankingNetController extends Controller
 
     public function transfer(Request $request, $from, $to, $amount, $signature)
     {
+        $username = Auth::user()->name;
         $caCertPath = env('CA_CERT_PATH');
-        $response = Http::withOptions(['verify' => $caCertPath])->get('https://cgiequipo04/cgi-bin/balanceTransferLogsCif', [
-            'from' => $from,
-            'to' => $to,
-            'amount' => $amount,
-            'signature' => $signature
+        $response = Http::withOptions(['verify' => $caCertPath])->get('https://cgiequipo04/cgi-bin/getBalanceEnv', [
+            'name' => $username
         ]);
         if ($response->successful()) {
             $html = $response->body();
-            return redirect()->route('banking.net')->with('success', 'Se ha realizado la transacción.');
+            $crawler = new Crawler($html);
+            $balance = $crawler->filter('table tr td')->eq(1)->text();
+            if ($balance < $amount) {
+                return redirect()->back()->with('failed', 'No se pudo completar la transacción.');
+            }
+            $response = Http::withOptions(['verify' => $caCertPath])->get('https://cgiequipo04/cgi-bin/balanceTransferLogsCif', [
+                'from' => $from,
+                'to' => $to,
+                'amount' => $amount,
+                'signature' => $signature
+            ]);
+            if ($response->successful()) {
+                $html = $response->body();
+                return redirect()->route('banking.net')->with('success', 'Se ha realizado la transacción.');
+            }
         }
-        return redirect()->back()->with('failed', 'No se pudo completar la transacción.');
     }
 
     private function getTransactionLogs($username)
