@@ -35,18 +35,13 @@
                             {{ session('success') }}
                         </div>
                     @endif
-                    @if(session('failed'))
-                        <div id="failed-alert" class="alert alert-danger">
-                            {{ session('failed') }}
-                        </div>
-                    @endif
                     <hr class="divisor-line">
                     <!-- Área donde se muestran las publicaciones -->
                     <div id="post-container">
                         @foreach($posts as $post)
                             <div class="post">
                                 <div class="post-header">
-                                    <img src="data:{{ $post->user->mime_type }};base64,{{ $post->user->image_data }}" alt="Imagen Perfil">
+                                    <img src="data:{{ $post->user->mime_type }};base64,{{ $post->user->image_data }}" alt="Imagen adjunta">
                                     <div class="post-info">
                                         <h3>{{ $post->user->name }}</h3>
                                         <p>{{ $post->created_at }}</p>

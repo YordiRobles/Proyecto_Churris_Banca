@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -22,14 +21,10 @@ class VerifyUserController extends Controller
 
     public function verifyPassword(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'password' => ['required', 'string', 'max:40', 'regex:/^[^\'";*(){}[\]<>\\&$]+$/'],
+        $request->validate([
+            'password' => 'required|string',
         ]);
-        
-        if ($validator->fails()) {
-            return redirect()->back()->with('failed', 'La contraseña tiene datos invalidos');
-        }
-        
+
         if (Hash::check($request->password, Auth::user()->password)) {
             $request->session()->put('user_verified', true);
             return $this->verifyUserCertificate();
