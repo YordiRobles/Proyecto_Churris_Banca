@@ -3,31 +3,7 @@
 <head>
     <title>Perfil de {{ $user->name }}</title>
     <link href="/css/dashboard.css" rel="stylesheet">
-    <style>
-        .profile-header {
-            display: flex;
-            align-items: center;
-        }
-        .profile-header img {
-            border-radius: 50%;
-            margin-right: 20px;
-            width: 150px; /* Ajusta el tamaño de la imagen */
-            height: 150px;
-            object-fit: cover;
-        }
-        .profile-header h1 {
-            font-size: 2em; /* Tamaño del nombre del usuario */
-        }
-        .edit-profile-button, .view-balance-button{
-            background-color: black;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-right: 10px; /* Espaciado entre botones */
-        }
-    </style>
+    <link href="/css/seeprofile.css" rel="stylesheet">
 </head>
 <body>
     <x-app-layout>
@@ -51,10 +27,8 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <!-- Perfil del Usuario -->
                         <div class="profile-header">
                             <img src="data:{{ $user->mime_type }};base64,{{ $user->image_data }}" alt="Imagen Perfil">
-                            <!-- <img src="data:image/jpeg;base64,{{ base64_encode($user->image_data) }}" alt="Imagen de {{ $user->name }}"> -->
                             <div>
                                 <h1>{{ $user->name }}</h1>
                                 <p>Email: {{ $user->email }}</p>
@@ -64,14 +38,17 @@
                                 </a>
                             </div>
                         </div>
+                        @if(session('failed'))
+                            <div id="failed-alert" class="alert alert-danger">
+                                {{ session('failed') }}
+                            </div>
+                        @endif
                         <hr class="divisor-line">
-                        <!-- Área donde se muestran las publicaciones -->
                         <div class="post-container">
                             @foreach($user->publications->sortByDesc('created_at') as $publication)
                                 <div class="post">
                                     <div class="post-header">
                                     <img src="data:{{ $user->mime_type }};base64,{{ $user->image_data }}" alt="Imagen Perfil">
-                                    <!-- <img src="data:image/jpeg;base64,{{ base64_encode($user->image_data) }}" alt="Imagen de {{ $user->name }}"> -->
                                         <div class="post-info">
                                             <h3>{{ $user->name }}</h3>
                                             <p>{{ $publication->created_at }}</p>
@@ -89,7 +66,6 @@
                                         <span class="like-count">{{ $publication->likes_count }}</span>
                                         <button class="dislike-button">No me gusta</button>
                                         <span class="dislike-count">{{ $publication->dislikes_count }}</span>
-                                        <!-- Formulario de eliminación -->
                                         <form action="{{ route('publications.destroy', $publication->id) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')

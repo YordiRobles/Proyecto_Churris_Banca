@@ -236,3 +236,11 @@
     background-color: #cbcdcf;
     cursor: not-allowed;
 }
+
+.alert-danger {
+    color: red !important;
+}
+
+.alert-success {
+    color: green !important;
+}

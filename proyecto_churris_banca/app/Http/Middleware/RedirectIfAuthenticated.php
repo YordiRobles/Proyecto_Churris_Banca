@@ -24,7 +24,9 @@ class RedirectIfAuthenticated
                 return redirect(RouteServiceProvider::HOME);
             }
         }
-
+        if ($request->routeIs('register') || $request->routeIs('register.*')) {
+            return redirect('/');
+        }
         return $next($request);
     }
 }

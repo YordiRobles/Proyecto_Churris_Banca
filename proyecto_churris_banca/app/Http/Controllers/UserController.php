@@ -14,13 +14,24 @@ class UserController extends Controller
 {
     public function searchUsers(Request $request)
     {
+        // Validar la entrada del usuario
+        $request->validate([
+            'query' => ['required', 'regex:/^(?!\.)[a-zA-Z]+(?:\.[a-zA-Z]+)*$/'],
+        ], [
+            'query.regex' => 'El nombre de usuario solo puede contener letras y puntos, y no puede tener dos puntos seguidos, terminar con un punto, ni ser un punto único.',
+        ]);
+
         $currentUser = Auth::user();
-        $users = User::where('name', 'like', '%'.$request->input('query').'%')->get();
+        $query = $request->input('query');
+
+        // Buscar usuarios que coincidan con el criterio de búsqueda
+        $users = User::where('name', 'like', '%'.$query.'%')->get();
         
+        // Filtrar los resultados para excluir al usuario actual
         $filteredUsers = $users->filter(function ($user) use ($currentUser) {
             return $user->id !== $currentUser->id;
         });
-    
+
         return view('search_result', ['users' => $filteredUsers]);
     }
 
