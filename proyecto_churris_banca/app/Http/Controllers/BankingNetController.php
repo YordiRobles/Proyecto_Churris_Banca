@@ -147,12 +147,14 @@ class BankingNetController extends Controller
             $crawler = new Crawler($html);
             $name = $crawler->filter('table tr td')->eq(0)->text();
             $balance = $crawler->filter('table tr td')->eq(1)->text();
+            $currency = $crawler->filter('table tr td')->eq(2)->text();  // Obtener la moneda
 
             $transactions = $this->getTransactionLogs($username);
 
             return view('banking_net', [
                 'username' => $name,
                 'balance' => $balance,
+                'currency' => $currency,  // Pasar la moneda a la vista
                 'transactions' => $transactions
             ]);
         }

@@ -8,7 +8,7 @@
             </h2>
             <div class="user-balance">
                 <span>{{ $username }}</span>
-                <span>Balance: ${{ number_format($balance, 2) }}</span>
+                <span>Balance: {{ number_format($balance, 2) }} {{ $currency }}</span>
             </div>
         </div>
     </x-slot>
@@ -27,9 +27,9 @@
                     </div>
                 @endif
                 @if(session('failed'))
-                <div id="failed-alert" class="alert alert-danger">
-                    {{ session('failed') }}
-                </div>
+                    <div id="failed-alert" class="alert alert-danger">
+                        {{ session('failed') }}
+                    </div>
                 @endif
             </form>
         </div>
@@ -64,18 +64,18 @@
                                         <div class="transaction-info">
                                             @if($transaction['type'] == 'sent')
                                                 <h3>Enviado a: {{ $transaction['recipient'] }}</h3>
-                                                <p>Monto enviado: ${{ number_format($transaction['amount'], 2) }}</p>
+                                                <p>Monto enviado: {{ number_format($transaction['amount'], 2) }} {{ $currency }}</p>
                                             @else
                                                 <h3>Recibido de: {{ $transaction['sender'] }}</h3>
-                                                <p>Monto recibido: ${{ number_format($transaction['amount'], 2) }}</p>
+                                                <p>Monto recibido: {{ number_format($transaction['amount'], 2) }} {{ $currency }}</p>
                                             @endif
                                             <p>Fecha: {{ $transaction['date'] }}</p>
                                         </div>
                                         <div class="transaction-icon">
                                             @if($transaction['type'] == 'sent')
-                                                <img src="img/churricoin_red.png" alt="Icono de enviado" class="transaction-status-icon">
+                                                <img src="img/red.jpeg" alt="Icono de enviado" class="transaction-status-icon">
                                             @else
-                                                <img src="img/churricoin_green.png" alt="Icono de recibido" class="transaction-status-icon">
+                                                <img src="img/green.jpeg" alt="Icono de recibido" class="transaction-status-icon">
                                             @endif
                                         </div>
                                     </div>
@@ -95,3 +95,4 @@
 
 <script src="{{ asset('js/messages.js') }}"></script>
 <script src="{{ asset('js/banking_pagination.js') }}"></script>
+
