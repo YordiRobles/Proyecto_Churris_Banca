@@ -218,11 +218,16 @@ class BankingNetController extends Controller
         $sentRows = $crawler->filter('h2:contains("Transacciones enviadas") + table tr');
         foreach ($sentRows as $row) {
             $cells = (new Crawler($row))->filter('td');
-            if ($cells->count() == 3) {
+            if ($cells->count() == 7) {
                 $transactions['sent'][] = [
                     'date' => $cells->eq(0)->text(),
-                    'amount' => $cells->eq(1)->text(),
+                    'sender' => $cells->eq(1)->text(),
                     'recipient' => $cells->eq(2)->text(),
+                    'amount_sent' => $cells->eq(3)->text(),
+                    'amount_received' => $cells->eq(4)->text(),
+                    'sender_currency' => $cells->eq(5)->text(),
+                    'recipient_currency' => $cells->eq(6)->text(),
+                    'type' => 'sent'
                 ];
             }
         }
@@ -230,11 +235,16 @@ class BankingNetController extends Controller
         $receivedRows = $crawler->filter('h2:contains("Transacciones recibidas") + table tr');
         foreach ($receivedRows as $row) {
             $cells = (new Crawler($row))->filter('td');
-            if ($cells->count() == 3) {
+            if ($cells->count() == 7) {
                 $transactions['received'][] = [
                     'date' => $cells->eq(0)->text(),
-                    'amount' => $cells->eq(1)->text(),
-                    'sender' => $cells->eq(2)->text(),
+                    'sender' => $cells->eq(1)->text(),
+                    'recipient' => $cells->eq(2)->text(),
+                    'amount_sent' => $cells->eq(3)->text(),
+                    'amount_received' => $cells->eq(4)->text(),
+                    'sender_currency' => $cells->eq(5)->text(),
+                    'recipient_currency' => $cells->eq(6)->text(),
+                    'type' => 'received'
                 ];
             }
         }

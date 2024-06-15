@@ -64,10 +64,12 @@
                                         <div class="transaction-info">
                                             @if($transaction['type'] == 'sent')
                                                 <h3>Enviado a: {{ $transaction['recipient'] }}</h3>
-                                                <p>Monto enviado: {{ number_format($transaction['amount'], 2) }} {{ $currency }}</p>
+                                                <p>Monto enviado: {{ number_format($transaction['amount_sent'], 2) }} {{ $transaction['sender_currency'] }}</p>
+                                                <p>Monto recibido: {{ number_format($transaction['amount_received'], 2) }} {{ $transaction['recipient_currency'] }}</p>
                                             @else
                                                 <h3>Recibido de: {{ $transaction['sender'] }}</h3>
-                                                <p>Monto recibido: {{ number_format($transaction['amount'], 2) }} {{ $currency }}</p>
+                                                <p>Monto recibido: {{ number_format($transaction['amount_received'], 2) }} {{ $transaction['recipient_currency'] }}</p>
+                                                <p>Monto enviado: {{ number_format($transaction['amount_sent'], 2) }} {{ $transaction['sender_currency'] }}</p>
                                             @endif
                                             <p>Fecha: {{ $transaction['date'] }}</p>
                                         </div>
